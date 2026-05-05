@@ -11,7 +11,17 @@ def ask_category():
         case "2":
             category = "Housing"
         case "3":
-            category = "Fees"
+            category_index = input(
+                "What type of fee?: (Please enter a number) "
+                "1.Credit Card Annual Fee, 2. Tax Related Fee: "
+            )
+            match category_index:
+                case "1":
+                    category = "Credit Card Annual Fee"
+                case "2":
+                    category = "Tax Related Fee"
+                case _:
+                    category = "unknown category"
         case "4":
             category = "Travel"
         case _:
