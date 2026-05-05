@@ -1,4 +1,5 @@
 from expense_module import Expense
+from expense_functions import ask_category
 import pickle
 
 # open the saved list
@@ -14,22 +15,7 @@ date = [month, day, year]
 
 cost = float(input("How much in dollar does it cost?: "))
 
-main_category_index = input(
-    "What category does it belongs to?(Please enter a number) "
-    "1. Drinks & Snacks, 2. Housing, 3. Fees, 4. Travel: "
-)
-
-match main_category_index:
-    case "1":
-        main_category = "Drinks & Snackes"
-    case "2":
-        main_category = "Housing"
-    case "3":
-        main_category = "Fees"
-    case "4":
-        main_category = "Travel"
-    case _:
-        main_category = "unknown category"
+main_category = ask_category()
 
 note = input("Please enter any notes: ")
 
