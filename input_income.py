@@ -1,4 +1,5 @@
 from expense_module import Income
+from expense_functions import what_income
 import pickle
 
 
@@ -15,15 +16,7 @@ date = [month, day, year]
 
 amount = float(input("How much in dollar did you earn?: "))
 
-category_index = input(
-    "What category does it belongs to?(Please enter a number) 1. Salary: "
-)
-
-match category_index:
-    case "1":
-        category = "Salary"
-    case _:
-        category = "unknown category"
+category = what_income()
 
 note = input("Please enter any notes: ")
 

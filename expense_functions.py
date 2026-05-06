@@ -28,3 +28,17 @@ def ask_category():
             category = "unknown category"
 
     return category
+
+
+def what_income():
+    category_index = input(
+        "What category does it belongs to?(Please enter a number) 1. Salary: "
+    )
+
+    match category_index:
+        case "1":
+            category = "Salary"
+        case _:
+            category = "unknown category"
+
+    return category
