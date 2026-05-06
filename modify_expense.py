@@ -12,7 +12,7 @@ i = 0
 for item in expense_list:
     i += 1
     print(
-        f"{i}. {item.date[0]}/{item.date[1]}/{item.date[2]} {item.category} {item.note} {item.quantity} ${item.cost}"
+        f"{i}. {item.date[0]}/{item.date[1]}/{item.date[2]} {item.category} {item.note} {item.quantity} ${item.cost} {item.tag}"
     )
 
 option = input(
