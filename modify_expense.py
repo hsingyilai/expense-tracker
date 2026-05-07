@@ -1,6 +1,6 @@
-from expense_module import Expense
 from expense_functions import ask_category
 import pickle
+import datetime
 
 
 with open("all_expense.pickle", "rb") as file:
@@ -32,27 +32,47 @@ match option:
             int(input("Which entry do you want to modify? (enter a number): ")) - 1
         )
 
-        print("Please enter the updated information:")
+        update_what = input(
+            "What would you want to modify?"
+            ": 1. date, 2. cost, 3. category, 4. note, 5. quantity, 6. tag "
+        )
+        match update_what:
+            case "1":
+                is_today = input("Is this perchase made today? : (1. Yes, 2. No) ")
 
-        month = input("What month did you made this purchase?: ")
-        day = input("What day did you made this purchase?: ")
-        year = input("What year did you made this purchase?: ")
+                match is_today:
+                    case "1":
+                        today = datetime.datetime.now()
+                        month = str(int(today.strftime("%m")))
+                        day = str(int(today.strftime("%d")))
+                        year = str(int(today.strftime("%Y")))
+                        date = [month, day, year]
+                    case _:
+                        month = input("What month did you made this purchase?: ")
+                        day = input("What day did you made this purchase?: ")
+                        year = input("What year did you made this purchase?: ")
+                        date = [month, day, year]
 
-        date = [month, day, year]
+                expense_list[entry_index].date = date
+            case "2":
+                cost = float(input("How much in dollar does it cost?: "))
+                expense_list[entry_index].cost = cost
+            case "3":
+                category = ask_category()
+                expense_list[entry_index].category = category
+            case "4":
+                note = input("Please enter any notes: ")
+                expense_list[entry_index].note = note
+            case "5":
+                quantity = input("Please enter the quantity: ")
+                expense_list[entry_index].quantity = quantity
+            case "6":
+                tag = input("Please enter a tag: ")
+                expense_list[entry_index].tag = tag
+            case _:
+                print("Invalid Option.")
+                valid_option = False
 
-        cost = float(input("How much in dollar does it cost?: "))
-
-        main_category = ask_category()
-
-        note = input("Please enter any notes: ")
-
-        quantity = input("Please enter the quantity: ")
-
-        tag = input("Please enter a tag: ")
-
-        updated_expense = Expense(date, cost, main_category, note, quantity, tag)
-
-        expense_list[entry_index] = updated_expense
     case _:
         print("Invalid Option.")
         valid_option = False

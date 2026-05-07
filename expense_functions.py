@@ -2,7 +2,7 @@ def ask_category():
 
     category_index = input(
         "What category does it belongs to?(Please enter a number) "
-        "1. Eating & Drinking, 2. Housing, 3. Fees, 4. Travel: "
+        "1. Eating & Drinking, 2. Housing, 3. Fees, 4. Travel, 5. Home Consumables: "
     )
 
     match category_index:
@@ -46,6 +46,17 @@ def ask_category():
                     category = "unknown category"
         case "4":
             category = "Travel"
+        case "5":
+            category_index = input(
+                "(Please enter a number) 1. Bathroom Products, 2. Kitchen Products: "
+            )
+            match category_index:
+                case "1":
+                    category = "Bathroom Products"
+                case "2":
+                    category = "Kitchen Products"
+                case _:
+                    category = "unknown category"
         case _:
             category = "unknown category"
 
