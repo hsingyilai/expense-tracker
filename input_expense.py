@@ -1,18 +1,14 @@
 from expense_module import Expense
 from expense_functions import ask_category
 import pickle
+import datetime
+
 
 # open the saved list
 with open("all_expense.pickle", "rb") as file:
     expense_list = pickle.load(file)
 
 # get info
-month = input("What month did you made this purchase?: ")
-day = input("What day did you made this purchase?: ")
-year = input("What year did you made this purchase?: ")
-
-date = [month, day, year]
-
 cost = float(input("How much in dollar does it cost?: "))
 
 main_category = ask_category()
@@ -22,6 +18,21 @@ note = input("Please enter any notes: ")
 quantity = input("Please enter the quantity: ")
 
 tag = input("Please enter a tag: ")
+
+is_today = input("Is this perchase made today? : (1. Yes, 2. No) ")
+
+match is_today:
+    case "1":
+        today = datetime.datetime.now()
+        month = str(int(today.strftime("%m")))
+        day = str(int(today.strftime("%d")))
+        year = str(int(today.strftime("%Y")))
+        date = [month, day, year]
+    case _:
+        month = input("What month did you made this purchase?: ")
+        day = input("What day did you made this purchase?: ")
+        year = input("What year did you made this purchase?: ")
+        date = [month, day, year]
 
 # append the new expense
 new_expense = Expense(date, cost, main_category, note, quantity, tag)
