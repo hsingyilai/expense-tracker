@@ -10,3 +10,52 @@ for item in expense_list:
 total = round(total, 2)
 
 print(f"Total spending is ${total}.")
+
+print("Category breakdown:")
+
+total = 0
+for item in expense_list:
+    if item.category in (
+        "Frozen Meat",
+        "Frozen Vegetable",
+        "Snacks",
+        "Tea & Coffee",
+        "Other Drinks",
+        "Fruits",
+    ):
+        total += float(item.cost)
+
+total = round(total, 2)
+print(f"Eating & Drinking: ${total}.")
+
+total = 0
+for item in expense_list:
+    if item.category in ("Rent + Related Fixed Fee", "Laundry"):
+        total += float(item.cost)
+
+total = round(total, 2)
+print(f"Housing: ${total}.")
+
+total = 0
+for item in expense_list:
+    if item.category in ("Credit Card Annual Fee", "Tax Related Fee"):
+        total += float(item.cost)
+
+total = round(total, 2)
+print(f"Fees: ${total}.")
+
+total = 0
+for item in expense_list:
+    if item.category in ("Travel"):
+        total += float(item.cost)
+
+total = round(total, 2)
+print(f"Travel: ${total}.")
+
+total = 0
+for item in expense_list:
+    if item.category in ("Bathroom Products", "Kitchen Products"):
+        total += float(item.cost)
+
+total = round(total, 2)
+print(f"Home Consumables: ${total}.")
