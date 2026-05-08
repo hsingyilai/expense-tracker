@@ -8,7 +8,7 @@ def ask_category():
     match category_index:
         case "1":
             category_index = input(
-                "(Please enter a number) 1. Frozen Meat, 2. Frozen Vegetable, 3. Snacks, 4. Drinks: "
+                "(Please enter a number) 1. Frozen Meat, 2. Frozen Vegetable, 3. Snacks, 4. Drinks, 5. Fruits : "
             )
             match category_index:
                 case "1":
@@ -18,7 +18,18 @@ def ask_category():
                 case "3":
                     category = "Snacks"
                 case "4":
-                    category = "Dinks"
+                    category_index = input(
+                        "What type of drinks?: 1. Tea & Coffee, 2. Other Drinks "
+                    )
+                    match category_index:
+                        case "1":
+                            category = "Tea & Coffee"
+                        case "2":
+                            category = "Other Drinks"
+                        case _:
+                            category = "Unknown Category"
+                case "5":
+                    category = "Fruits"
                 case _:
                     category = "unknown category"
         case "2":
