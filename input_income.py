@@ -14,7 +14,7 @@ category = what_income()
 
 note = input("Please enter any notes: ")
 
-is_today = input("Is this perchase made today? : (1. Yes, 2. No) ")
+is_today = input("Is this income receive today? : (1. Yes, 2. No) ")
 
 match is_today:
     case "1":
@@ -24,9 +24,9 @@ match is_today:
         year = str(int(today.strftime("%Y")))
         date = [month, day, year]
     case _:
-        month = input("What month did you made this purchase?: ")
-        day = input("What day did you made this purchase?: ")
-        year = input("What year did you made this purchase?: ")
+        month = input("What month did you receive it?: ")
+        day = input("What day did you receive it?: ")
+        year = input("What year did you receive it?: ")
         date = [month, day, year]
 
 # append the new expense
