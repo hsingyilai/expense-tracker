@@ -2,19 +2,19 @@ def ask_category():
 
     category_index = input(
         "What category does it belongs to?(Please enter a number) "
-        "1. Eating & Drinking, 2. Housing, 3. Fees, 4. Travel, 5. Home Consumables: "
+        "1. Eating & Drinking, 2. Housing, 3. Fees, 4. Travel, 5. Home Consumables, 6. Medical: "
     )
 
     match category_index:
         case "1":
             category_index = input(
-                "(Please enter a number) 1. Frozen Meat, 2. Frozen Vegetable, 3. Snacks, 4. Drinks, 5. Fruits, 6. Other Ingredients : "
+                "(Please enter a number) 1. Meat, 2. Vegetable, 3. Snacks, 4. Drinks, 5. Fruits, 6. Other Ingredients : "
             )
             match category_index:
                 case "1":
-                    category = "Frozen Meat"
+                    category = "Meat"
                 case "2":
-                    category = "Frozen Vegetable"
+                    category = "Vegetable"
                 case "3":
                     category = "Snacks"
                 case "4":
@@ -68,6 +68,17 @@ def ask_category():
                     category = "Bathroom Products"
                 case "2":
                     category = "Kitchen Products"
+                case _:
+                    category = "unknown category"
+        case "6":
+            category_index = input(
+                "(Please enter a number) 1. Dentist, 2. Other Medical: "
+            )
+            match category_index:
+                case "1":
+                    category = "Dentist"
+                case "2":
+                    category = "Other Medical"
                 case _:
                     category = "unknown category"
         case _:

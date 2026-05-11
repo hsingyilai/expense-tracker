@@ -5,8 +5,8 @@ with open("all_expense.pickle", "rb") as file:
 
 i = 0
 for entry in expense_list:
-    if entry.category == "Dinks":
-        expense_list[i].category = "Other Drinks"
+    if entry.category == "Frozen Vegetable":
+        expense_list[i].category = "Vegetable"
 
     i += 1
 
