@@ -59,3 +59,34 @@ for item in expense_list:
 
 total = round(total, 2)
 print(f"Home Consumables: ${total}.")
+
+print("----------------------")
+
+with open("all_income.pickle", "rb") as file:
+    income_list = pickle.load(file)
+
+total = 0
+for item in income_list:
+    total += float(item.amount)
+
+total = round(total, 2)
+
+print(f"Total income is ${total}.")
+
+print("Category breakdown:")
+
+total = 0
+for item in income_list:
+    if item.category in ("Salary"):
+        total += float(item.amount)
+
+total = round(total, 2)
+print(f"Salary: ${total}.")
+
+total = 0
+for item in income_list:
+    if item.category in ("Selling Used"):
+        total += float(item.amount)
+
+total = round(total, 2)
+print(f"Selling Used: ${total}.")
