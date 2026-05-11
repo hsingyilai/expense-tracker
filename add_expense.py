@@ -60,6 +60,14 @@ for item in expense_list:
 total = round(total, 2)
 print(f"Home Consumables: ${total}.")
 
+total = 0
+for item in expense_list:
+    if item.category in ("Dentist", "Other Medical"):
+        total += float(item.cost)
+
+total = round(total, 2)
+print(f"Medical: ${total}.")
+
 print("----------------------")
 
 with open("all_income.pickle", "rb") as file:
