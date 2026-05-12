@@ -36,13 +36,17 @@ def ask_category():
                     category = "unknown category"
         case "2":
             category_index = input(
-                "(Please enter a number) 1. Rent + Related Fixed Fee, 2. Laundry: "
+                "(Please enter a number) 1. Rent + Related Fixed Fee, 2. Laundry, 3. PG&E, 4. Other Housing Fee: "
             )
             match category_index:
                 case "1":
                     category = "Rent + Related Fixed Fee"
                 case "2":
                     category = "Laundry"
+                case "3":
+                    category = "PG&E"
+                case "4":
+                    category = "Other Housing Fee"
                 case _:
                     category = "unknown category"
         case "3":
