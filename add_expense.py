@@ -13,28 +13,39 @@ print(f"Total spending is ${total}.")
 
 print("Category breakdown:")
 
+check_total = 0
 total = 0
 for item in expense_list:
     if item.category in (
-        "Frozen Meat",
-        "Frozen Vegetable",
+        "Meat",
+        "Vegetable",
         "Snacks",
         "Tea & Coffee",
         "Other Drinks",
         "Fruits",
+        "Other Ingredients",
     ):
         total += float(item.cost)
 
 total = round(total, 2)
 print(f"Eating & Drinking: ${total}.")
 
+check_total += total
+
 total = 0
 for item in expense_list:
-    if item.category in ("Rent + Related Fixed Fee", "Laundry"):
+    if item.category in (
+        "Rent + Related Fixed Fee",
+        "Laundry",
+        "PG&E",
+        "Other Housing Fee",
+    ):
         total += float(item.cost)
 
 total = round(total, 2)
 print(f"Housing: ${total}.")
+
+check_total += total
 
 total = 0
 for item in expense_list:
@@ -44,6 +55,8 @@ for item in expense_list:
 total = round(total, 2)
 print(f"Fees: ${total}.")
 
+check_total += total
+
 total = 0
 for item in expense_list:
     if item.category in ("Travel"):
@@ -51,6 +64,8 @@ for item in expense_list:
 
 total = round(total, 2)
 print(f"Travel: ${total}.")
+
+check_total += total
 
 total = 0
 for item in expense_list:
@@ -60,6 +75,8 @@ for item in expense_list:
 total = round(total, 2)
 print(f"Home Consumables: ${total}.")
 
+check_total += total
+
 total = 0
 for item in expense_list:
     if item.category in ("Dentist", "Other Medical"):
@@ -67,6 +84,10 @@ for item in expense_list:
 
 total = round(total, 2)
 print(f"Medical: ${total}.")
+
+check_total += total
+total = round(total, 2)
+print(f"Check total: ${check_total}")
 
 print("----------------------")
 
