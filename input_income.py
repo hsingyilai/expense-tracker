@@ -8,9 +8,12 @@ import datetime
 with open("all_income.pickle", "rb") as file:
     income_list = pickle.load(file)
 
+with open("income_category_tree.pickle", "rb") as file:
+    all_income_type = pickle.load(file)
+
 amount = float(input("How much in dollar did you earn?: "))
 
-category = what_income()
+category = what_income(all_income_type)
 
 note = input("Please enter any notes: ")
 

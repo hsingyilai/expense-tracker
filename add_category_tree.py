@@ -4,6 +4,8 @@ from anytree import Node, RenderTree
 with open("category_tree.pickle", "rb") as file:
     all_category = pickle.load(file)
 
+print(RenderTree(all_category).by_attr())
+
 current_category = all_category
 category_index = ""
 while category_index != "exit":
