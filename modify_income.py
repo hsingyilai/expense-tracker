@@ -1,10 +1,14 @@
 from expense_module import Income
 from expense_functions import what_income
 import pickle
+import datetime
 
 
 with open("all_income.pickle", "rb") as file:
     income_list = pickle.load(file)
+
+with open("income_category_tree.pickle", "rb") as file:
+    all_income_type = pickle.load(file)
 
 print("Income:")
 
@@ -34,17 +38,26 @@ match option:
 
         print("Please enter the updated information:")
 
-        month = input("What month did you receive this income?: ")
-        day = input("What day did you receive this income?: ")
-        year = input("What year did you receive this income?: ")
-
-        date = [month, day, year]
-
         amount = float(input("How much in dollar did you earn?: "))
 
-        category = what_income()
+        category = what_income(all_income_type)
 
         note = input("Please enter any notes: ")
+
+        is_today = input("Is this income receive today? : (1. Yes, 2. No) ")
+
+        match is_today:
+            case "1":
+                today = datetime.datetime.now()
+                month = str(int(today.strftime("%m")))
+                day = str(int(today.strftime("%d")))
+                year = str(int(today.strftime("%Y")))
+                date = [month, day, year]
+            case _:
+                month = input("What month did you receive it?: ")
+                day = input("What day did you receive it?: ")
+                year = input("What year did you receive it?: ")
+                date = [month, day, year]
 
         # append the new expense
         updated_income = Income(date, amount, category, note)

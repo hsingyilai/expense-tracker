@@ -8,10 +8,13 @@ import datetime
 with open("all_expense.pickle", "rb") as file:
     expense_list = pickle.load(file)
 
+with open("category_tree.pickle", "rb") as file:
+    category_tree = pickle.load(file)
+
 # get info
 cost = float(input("How much in dollar does it cost?: "))
 
-main_category = ask_category()
+category = ask_category(category_tree)
 
 note = input("Please enter any notes: ")
 
@@ -35,7 +38,7 @@ match is_today:
         date = [month, day, year]
 
 # append the new expense
-new_expense = Expense(date, cost, main_category, note, quantity, tag)
+new_expense = Expense(date, cost, category, note, quantity, tag)
 
 expense_list.append(new_expense)
 

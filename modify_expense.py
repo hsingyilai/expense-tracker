@@ -6,6 +6,9 @@ import datetime
 with open("all_expense.pickle", "rb") as file:
     expense_list = pickle.load(file)
 
+with open("category_tree.pickle", "rb") as file:
+    category_tree = pickle.load(file)
+
 print("Expenses:")
 
 i = 0
@@ -58,7 +61,7 @@ match option:
                 cost = float(input("How much in dollar does it cost?: "))
                 expense_list[entry_index].cost = cost
             case "3":
-                category = ask_category()
+                category = ask_category(category_tree)
                 expense_list[entry_index].category = category
             case "4":
                 note = input("Please enter any notes: ")

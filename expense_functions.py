@@ -1,107 +1,43 @@
-def ask_category():
+def ask_category(category_tree):
 
-    category_index = input(
-        "What category does it belongs to?(Please enter a number) "
-        "1. Eating & Drinking, 2. Housing, 3. Fees, 4. Travel, 5. Home Consumables, 6. Medical: "
-    )
+    current_category = category_tree
+    while current_category.children:
+        message = ""
+        i = 0
+        for child_category in current_category.children:
+            i += 1
+            message += str(i) + ". " + child_category.name + " "
 
-    match category_index:
-        case "1":
-            category_index = input(
-                "(Please enter a number) 1. Meat, 2. Vegetable, 3. Snacks, 4. Drinks, 5. Fruits, 6. Other Ingredients : "
-            )
-            match category_index:
-                case "1":
-                    category = "Meat"
-                case "2":
-                    category = "Vegetable"
-                case "3":
-                    category = "Snacks"
-                case "4":
-                    category_index = input(
-                        "What type of drinks?: 1. Tea & Coffee, 2. Other Drinks "
-                    )
-                    match category_index:
-                        case "1":
-                            category = "Tea & Coffee"
-                        case "2":
-                            category = "Other Drinks"
-                        case _:
-                            category = "Unknown Category"
-                case "5":
-                    category = "Fruits"
-                case "6":
-                    category = "Other Ingredients"
-                case _:
-                    category = "unknown category"
-        case "2":
-            category_index = input(
-                "(Please enter a number) 1. Rent + Related Fixed Fee, 2. Laundry, 3. PG&E, 4. Other Housing Fee: "
-            )
-            match category_index:
-                case "1":
-                    category = "Rent + Related Fixed Fee"
-                case "2":
-                    category = "Laundry"
-                case "3":
-                    category = "PG&E"
-                case "4":
-                    category = "Other Housing Fee"
-                case _:
-                    category = "unknown category"
-        case "3":
-            category_index = input(
-                "What type of fee?: (Please enter a number) "
-                "1.Credit Card Annual Fee, 2. Tax Related Fee: "
-            )
-            match category_index:
-                case "1":
-                    category = "Credit Card Annual Fee"
-                case "2":
-                    category = "Tax Related Fee"
-                case _:
-                    category = "unknown category"
-        case "4":
-            category = "Travel"
-        case "5":
-            category_index = input(
-                "(Please enter a number) 1. Bathroom Products, 2. Kitchen Products: "
-            )
-            match category_index:
-                case "1":
-                    category = "Bathroom Products"
-                case "2":
-                    category = "Kitchen Products"
-                case _:
-                    category = "unknown category"
-        case "6":
-            category_index = input(
-                "(Please enter a number) 1. Dentist, 2. Other Medical: "
-            )
-            match category_index:
-                case "1":
-                    category = "Dentist"
-                case "2":
-                    category = "Other Medical"
-                case _:
-                    category = "unknown category"
-        case _:
-            category = "unknown category"
+        message += "(Please enter a number): "
+
+        category_index = input(message)
+
+        enter_index = int(category_index) - 1
+        current_category = current_category.children[enter_index]
+
+    category = current_category.name
 
     return category
 
 
-def what_income():
-    category_index = input(
-        "What category does it belongs to?(Please enter a number) 1. Salary, 2. Selling Used: "
-    )
+def what_income(all_income_type):
 
-    match category_index:
-        case "1":
-            category = "Salary"
-        case "2":
-            category = "Selling Used"
-        case _:
-            category = "unknown category"
+    current_category = all_income_type
+
+    while current_category.children:
+        message = ""
+        i = 0
+        for child_category in current_category.children:
+            i += 1
+            message += str(i) + ". " + child_category.name + " "
+
+        message += "(Please enter a number): "
+
+        category_index = input(message)
+
+        enter_index = int(category_index) - 1
+        current_category = current_category.children[enter_index]
+
+    category = current_category.name
 
     return category
