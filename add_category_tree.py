@@ -17,6 +17,8 @@ while category_index != "exit":
 
     message += "0. Add New Category (Please enter a number): "
 
+    print("")
+    print('Enter "exit" to end.')
     category_index = input(message)
 
     if category_index == "0":
