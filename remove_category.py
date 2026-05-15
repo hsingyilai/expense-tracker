@@ -18,6 +18,8 @@ while category_index != "exit":
 
     message += '(Please enter a number or type "remove"): '
 
+    print("")
+    print('Enter "exit" to end.')
     category_index = input(message)
 
     if category_index == "remove":
