@@ -104,7 +104,7 @@ print(
     f"You bought {round(total_meat_weight, 1)} lb of meat in total, ${round(total_meat_cost / total_meat_weight, 2)} per pound on average."
 )
 print(
-    f"You can save ${round(total_meat_cost - total_meat_cost / total_meat_weight, 2)} if you stick with the cheapest option."
+    f"You can save ${round(total_meat_cost - cheapest_meat_per_lb * total_meat_weight, 2)} if you stick with the cheapest option."
 )
 
 print("----------------------")
@@ -146,5 +146,5 @@ print(
     f"You bought {round(total_vege_weight, 1)} lb of vegetable in total, ${round(total_vege_cost / total_vege_weight, 2)} per pound on average."
 )
 print(
-    f"You can save ${round(total_vege_cost - total_vege_cost / total_vege_weight, 2)} if you stick with the cheapest option."
+    f"You can save ${round(total_vege_cost - cheapest_vege_per_lb * total_vege_weight, 2)} if you stick with the cheapest option."
 )
