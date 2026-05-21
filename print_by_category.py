@@ -6,7 +6,7 @@ with open("all_expense.pickle", "rb") as file:
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)
 
-category_to_print = "Drinks"
+category_to_print = "Vegetable"
 
 print(category_to_print + " expenses:")
 
