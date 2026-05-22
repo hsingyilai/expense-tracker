@@ -1,6 +1,9 @@
 import pickle
 from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
+from expense_functions import expense_string
+import matplotlib.pyplot as plt
+
 
 ureg = UnitRegistry()
 Q_ = ureg.Quantity
@@ -8,26 +11,50 @@ Q_ = ureg.Quantity
 with open("all_expense.pickle", "rb") as file:
     expense_list = pickle.load(file)
 
+with open("all_income.pickle", "rb") as file:
+    income_list = pickle.load(file)
+
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)
 
 with open("income_category_tree.pickle", "rb") as file:
     all_income_type = pickle.load(file)
 
+with open("irregular_expense_list.pickle", "rb") as file:
+    irregular_list = pickle.load(file)
+
+# append the irregular expense list for new entries
+for i in range(len(expense_list)):
+    if i >= len(irregular_list):
+        irregular_list.append(False)
+
+
 # sum the spending at the last child level
 for category in PreOrderIter(category_tree):
     setattr(category, "total", 0)
+    setattr(category, "total_regular", 0)
+    setattr(category, "total_irregular", 0)
+    i = 0
     for entry in expense_list:
         if category.name == entry.category:
             category.total += entry.cost
+            if irregular_list[i]:
+                category.total_irregular += entry.cost
+            else:
+                category.total_regular += entry.cost
+        i += 1
 
 # sum the spend of subcategories into categories
 for category in PostOrderIter(category_tree):
     for child in category.children:
         category.total += child.total
+        category.total_regular += child.total_regular
+        category.total_irregular += child.total_irregular
 
 for category in PreOrderIter(category_tree):
     category.total = round(category.total, 2)
+    category.total_regular = round(category.total_regular, 2)
+    category.total_irregular = round(category.total_irregular, 2)
 
 print("Total spending in each category:")
 
@@ -35,13 +62,6 @@ for category in PreOrderIter(category_tree):
     print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
 print("----------------------")
-
-with open("all_income.pickle", "rb") as file:
-    income_list = pickle.load(file)
-
-with open("income_category_tree.pickle", "rb") as file:
-    all_income_type = pickle.load(file)
-
 # sum the spending at the last child level
 for income_type in PreOrderIter(all_income_type):
     setattr(income_type, "total", 0)
@@ -90,16 +110,12 @@ print(
     f"The cheapest meat is: ${round(cheapest_meat_per_lb, 2)} per pound, with the following purchase:"
 )
 entry = expense_list[cheapest_meat_index]
-print(
-    f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} {entry.quantity} ${entry.cost} {entry.tag}"
-)
+print(expense_string(entry))
 print(
     f"The most expensive meat is: ${round(most_expensive, 2)} per pound, with the following purchase:"
 )
 entry = expense_list[most_expensive_index]
-print(
-    f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} {entry.quantity} ${entry.cost} {entry.tag}"
-)
+print(expense_string(entry))
 print(
     f"You bought {round(total_meat_weight, 1)} lb of meat in total, ${round(total_meat_cost / total_meat_weight, 2)} per pound on average."
 )
@@ -132,19 +148,45 @@ print(
     f"The cheapest vegetable is: ${round(cheapest_vege_per_lb, 2)} per pound, with the following purchase:"
 )
 entry = expense_list[cheapest_vege_index]
-print(
-    f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} {entry.quantity} ${entry.cost} {entry.tag}"
-)
+print(expense_string(entry))
 print(
     f"The most expensive vegetable is: ${round(most_expensive, 2)} per pound, with the following purchase:"
 )
 entry = expense_list[most_expensive_index]
-print(
-    f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} {entry.quantity} ${entry.cost} {entry.tag}"
-)
+print(expense_string(entry))
 print(
     f"You bought {round(total_vege_weight, 1)} lb of vegetable in total, ${round(total_vege_cost / total_vege_weight, 2)} per pound on average."
 )
 print(
     f"You can save ${round(total_vege_cost - cheapest_vege_per_lb * total_vege_weight, 2)} if you stick with the cheapest option."
 )
+
+
+# draw pie charts
+values = [category_tree.total_regular, category_tree.total_irregular]
+
+figure, axes = plt.subplots(1, 3)
+
+axes[1].pie(values, autopct="%1.1f%%", startangle=90)
+axes[1].set_title(f"Total Spending\n${category_tree.total}")
+
+regular_category = []
+regular_value = []
+for child in category_tree.children:
+    regular_category.append(child.name + f"\n${child.total_regular}")
+    regular_value.append(child.total_regular)
+
+axes[0].pie(regular_value, labels=regular_category, autopct="%1.1f%%")
+axes[0].set_title(f"Regular\n${category_tree.total_regular}")
+
+irregular_category = []
+irregular_value = []
+for child in category_tree.children:
+    irregular_category.append(child.name + f"\n${child.total_irregular}")
+    irregular_value.append(child.total_irregular)
+
+axes[2].pie(irregular_value, labels=irregular_category, autopct="%1.1f%%")
+axes[2].set_title(f"Irregular\n${category_tree.total_irregular}")
+
+
+plt.show()

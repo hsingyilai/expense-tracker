@@ -1,4 +1,6 @@
 import pickle
+from expense_functions import expense_string
+
 
 with open("all_expense.pickle", "rb") as file:
     expense_list = pickle.load(file)
@@ -6,7 +8,7 @@ with open("all_expense.pickle", "rb") as file:
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)
 
-category_to_print = "Vegetable"
+category_to_print = "Snacks"
 
 print(category_to_print + " expenses:")
 
@@ -25,6 +27,4 @@ i = 0
 for item in expense_list:
     if item.category in list_of_category_to_print:
         i += 1
-        print(
-            f"{i}. {item.date[0]}/{item.date[1]}/{item.date[2]} {item.category} {item.note} {item.quantity} ${item.cost} {item.tag}"
-        )
+        print(f"{i}. " + expense_string(item))
