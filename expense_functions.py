@@ -41,3 +41,13 @@ def what_income(all_income_type):
     category = current_category.name
 
     return category
+
+
+def expense_string(entry):
+    message = f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} {entry.quantity} ${entry.cost} {entry.tag}"
+    return message
+
+
+def income_string(entry):
+    message = f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} ${entry.amount}"
+    return message

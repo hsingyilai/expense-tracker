@@ -1,5 +1,5 @@
 from expense_module import Income
-from expense_functions import what_income
+from expense_functions import what_income, income_string
 import pickle
 import datetime
 
@@ -15,9 +15,7 @@ print("Income:")
 i = 0
 for item in income_list:
     i += 1
-    print(
-        f"{i}. {item.date[0]}/{item.date[1]}/{item.date[2]} {item.category} {item.note} ${item.amount}"
-    )
+    print(f"{i}. " + income_string(item))
 
 option = input(
     "Do you want to: 1. delete an entry, or 2. modify an entry? (enter 1 or 2) "

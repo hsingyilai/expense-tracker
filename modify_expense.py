@@ -1,4 +1,4 @@
-from expense_functions import ask_category
+from expense_functions import ask_category, expense_string
 import pickle
 import datetime
 
@@ -14,9 +14,7 @@ print("Expenses:")
 i = 0
 for item in expense_list:
     i += 1
-    print(
-        f"{i}. {item.date[0]}/{item.date[1]}/{item.date[2]} {item.category} {item.note} {item.quantity} ${item.cost} {item.tag}"
-    )
+    print(f"{i}. " + expense_string(item))
 
 option = input(
     "Do you want to: 1. delete an entry, or 2. modify an entry? (enter 1 or 2) "
