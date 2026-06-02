@@ -8,7 +8,43 @@ with open("all_expense.pickle", "rb") as file:
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)
 
-category_to_print = "Snacks"
+
+current_category = category_tree
+next_layer = True
+while next_layer:
+    message = "Which category of expenses do you want to print?: "
+    i = 0
+    for child_category in current_category.children:
+        i += 1
+        message += str(i) + ". " + child_category.name + " "
+
+    message += "(Please enter a number): "
+
+    category_index = input(message)
+
+    enter_index = int(category_index) - 1
+
+    choice = current_category.children[enter_index]
+
+    valid_input = False
+    while not valid_input:
+        decided = input(
+            f"Do you want to: 1. Print Expenses in {choice.name}, "
+            f"2. Choose from the subcateogries of {choice.name}? (Please enter a number): "
+        )
+
+        if decided == "1":
+            valid_input = True
+            next_layer = False
+            category_to_print = choice.name
+        elif decided == "2":
+            if not choice.children:
+                print("There is no more subcategory.")
+            else:
+                current_category = choice
+                valid_input = True
+        else:
+            print("Not a valid option.")
 
 print(category_to_print + " expenses:")
 

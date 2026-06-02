@@ -176,7 +176,7 @@ for child in category_tree.children:
     regular_category.append(child.name + f"\n${child.total_regular}")
     regular_value.append(child.total_regular)
 
-axes[0].pie(regular_value, labels=regular_category, autopct="%1.1f%%")
+axes[0].pie(regular_value, labels=regular_category, autopct="%1.1f%%", startangle=180)
 axes[0].set_title(f"Regular\n${category_tree.total_regular}")
 
 irregular_category = []
