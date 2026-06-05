@@ -28,6 +28,81 @@ for i in range(len(expense_list)):
     if i >= len(irregular_list):
         irregular_list.append(False)
 
+# choose the range to summarize
+valid_response = False
+while not valid_response:
+    time_range = input(
+        "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
+    )
+    if time_range in {"1", "2"}:
+        valid_response = True
+    else:
+        print("Invalid response.")
+
+# select the month to summarize
+if time_range == "2":
+    # figure out how many years
+    year_list = []
+    for entry in expense_list:
+        year_list.append(int(entry.date[2]))
+
+    year_list = list(set(year_list))
+    year_list.sort()
+
+    # figure out the months
+    month_list = []  # store year in month in year*100+month integer format
+    for entry in expense_list:
+        for year in year_list:
+            if int(entry.date[2]) == year:
+                month_list.append(year * 100 + int(entry.date[0]))
+
+    month_list = list(set(month_list))
+    month_list.sort()
+
+    # ask which month to summarize
+    message = "Please select a month. "
+    i = 0
+    for month in month_list:
+        i += 1
+        message += str(i) + ". " + str(month % 100) + "/" + str(month // 100) + " "
+
+    message += "(Please enter a number): "
+
+    valid_response = False
+    while not valid_response:
+        month_selected = input(message)
+        if month_selected in [str(x) for x in range(1, i + 1)]:
+            valid_response = True
+            month = str(month_list[int(month_selected) - 1] % 100)
+            year = str(month_list[int(month_selected) - 1] // 100)
+        else:
+            print("Invalid option.")
+
+    # remove all other entries from the list
+    new_expense_list = []
+    new_irregular_list = []
+    i = 0
+    for entry in expense_list:
+        if entry.date[0] == month and entry.date[2] == year:
+            new_expense_list.append(entry)
+            new_irregular_list.append(irregular_list[i])
+        i += 1
+
+    expense_list = new_expense_list
+    irregular_list = new_irregular_list
+
+    new_income_list = []
+    for entry in income_list:
+        if entry.date[0] == month and entry.date[2] == year:
+            new_income_list.append(entry)
+
+    income_list = new_income_list
+
+    plot_title = "Monthly Summary: " + month + "/" + year
+
+else:
+    plot_title = "All Time Summary"
+
 
 # sum the spending at the last child level
 for category in PreOrderIter(category_tree):
@@ -188,5 +263,6 @@ for child in category_tree.children:
 axes[2].pie(irregular_value, labels=irregular_category, autopct="%1.1f%%")
 axes[2].set_title(f"Irregular\n${category_tree.total_irregular}")
 
+figure.suptitle(plot_title)
 
 plt.show()
