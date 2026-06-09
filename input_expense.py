@@ -1,5 +1,5 @@
 from expense_module import Expense
-from expense_functions import ask_category
+from expense_functions import ask_category, valid_input
 import pickle
 import datetime
 
@@ -22,7 +22,9 @@ quantity = input("Please enter the quantity: ")
 
 tag = input("Please enter a tag: ")
 
-is_today = input("Is this perchase made today? : (1. Yes, 2. No) ")
+message = "Is this perchase made today? : (1. Yes, 2. No) "
+valid_list = ["1", "2"]
+is_today = valid_input(message, valid_list)
 
 match is_today:
     case "1":

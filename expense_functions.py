@@ -51,3 +51,14 @@ def expense_string(entry):
 def income_string(entry):
     message = f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} ${entry.amount}"
     return message
+
+
+def valid_input(message, valid_list):
+    valid = False
+    while not valid:
+        input_string = input(message)
+        if input_string in valid_list:
+            valid = True
+        else:
+            print("Invalid input.")
+    return input_string
