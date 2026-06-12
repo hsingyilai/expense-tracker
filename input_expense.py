@@ -1,5 +1,5 @@
 from expense_module import Expense
-from expense_functions import ask_category, valid_input
+from expense_functions import ask_category, valid_input, expense_string
 import pickle
 import datetime
 
@@ -13,6 +13,7 @@ with open("category_tree.pickle", "rb") as file:
 
 enter_more = True
 know_date = False
+num_entry = 0
 while enter_more:
     # get info
     valid_cost = False
@@ -90,7 +91,7 @@ while enter_more:
 
     # append the new expense
     new_expense = Expense(date, cost, category, note, quantity, tag)
-
+    num_entry += 1
     expense_list.append(new_expense)
 
     message = "Do you want to record another expense on the same day? 1. Yes, 2. No: "
@@ -106,4 +107,8 @@ while enter_more:
 with open("all_expense.pickle", "wb") as file:
     pickle.dump(expense_list, file)
 
-print("New expense(s) has been recorded!")
+print("The following expense(s) has been recorded!")
+for index in range(1, num_entry + 1):
+    message = str(index) + ". "
+    message += expense_string(expense_list[-index])
+    print(message)
