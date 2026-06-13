@@ -16,6 +16,7 @@ for item in expense_list:
     i += 1
     print(f"{i}. " + expense_string(item))
 
+print("==============================================")
 print("Income:")
 
 i = 0

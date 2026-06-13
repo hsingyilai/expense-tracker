@@ -25,6 +25,7 @@ while index_to_flag != "exit":
         if not irregular_list[i - 1]:
             print(f"{i}. " + expense_string(item))
 
+    print("======================================================")
     print("Irregular expenses:")
 
     i = 0
