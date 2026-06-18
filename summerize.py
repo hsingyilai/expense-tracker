@@ -1,7 +1,7 @@
 import pickle
 from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
-from expense_functions import expense_string
+from expense_functions import expense_string, valid_input
 import matplotlib.pyplot as plt
 
 
@@ -29,15 +29,8 @@ for i in range(len(expense_list)):
         irregular_list.append(False)
 
 # choose the range to summarize
-valid_response = False
-while not valid_response:
-    time_range = input(
-        "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
-    )
-    if time_range in {"1", "2"}:
-        valid_response = True
-    else:
-        print("Invalid response.")
+message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
+time_range = valid_input(message, ["1", "2"])
 
 # select the month to summarize
 if time_range == "2":
