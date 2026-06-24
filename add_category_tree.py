@@ -1,5 +1,6 @@
 import pickle
 from anytree import Node, RenderTree
+from expense_functions import valid_input
 
 with open("category_tree.pickle", "rb") as file:
     all_category = pickle.load(file)
@@ -19,7 +20,9 @@ while category_index != "exit":
 
     print("")
     print('Enter "exit" to end.')
-    category_index = input(message)
+    valid_list = [str(x) for x in range(0, i + 1)]
+    valid_list.append("exit")
+    category_index = valid_input(message, valid_list)
 
     if category_index == "0":
         name = input("Please enter the name of the new category: ")
