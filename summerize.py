@@ -174,61 +174,67 @@ for entry in expense_list:
             most_expensive = price_per_lb
             most_expensive_index = i
 
-print(
-    f"The cheapest meat is: ${round(cheapest_meat_per_lb, 2)} per pound, with the following purchase:"
-)
-entry = expense_list[cheapest_meat_index]
-print(expense_string(entry))
-print(
-    f"The most expensive meat is: ${round(most_expensive, 2)} per pound, with the following purchase:"
-)
-entry = expense_list[most_expensive_index]
-print(expense_string(entry))
-print(
-    f"You bought {round(total_meat_weight, 1)} lb of meat in total, ${round(total_meat_cost / total_meat_weight, 2)} per pound on average."
-)
-print(
-    f"You can save ${round(total_meat_cost - cheapest_meat_per_lb * total_meat_weight, 2)} if you stick with the cheapest option."
-)
+try:
+    print(
+        f"The cheapest meat is: ${round(cheapest_meat_per_lb, 2)} per pound, with the following purchase:"
+    )
+    entry = expense_list[cheapest_meat_index]
+    print(expense_string(entry))
+    print(
+        f"The most expensive meat is: ${round(most_expensive, 2)} per pound, with the following purchase:"
+    )
+    entry = expense_list[most_expensive_index]
+    print(expense_string(entry))
+    print(
+        f"You bought {round(total_meat_weight, 1)} lb of meat in total, ${round(total_meat_cost / total_meat_weight, 2)} per pound on average."
+    )
+    print(
+        f"You can save ${round(total_meat_cost - cheapest_meat_per_lb * total_meat_weight, 2)} if you stick with the cheapest option."
+    )
+except NameError:
+    print("No meat was bought.")
 
 print("----------------------")
 
-cheapest_vege_per_lb = -1
-most_expensive = 0
-total_vege_weight = 0
-total_vege_cost = 0
-i = -1
-for entry in expense_list:
-    i += 1
-    if entry.category == "Vegetable":
-        weight_in_lb = Q_(entry.quantity).to("lb")
-        price_per_lb = entry.cost / weight_in_lb.magnitude
-        total_vege_weight += weight_in_lb.magnitude
-        total_vege_cost += entry.cost
-        if cheapest_vege_per_lb < 0 or price_per_lb < cheapest_vege_per_lb:
-            cheapest_vege_per_lb = price_per_lb
-            cheapest_vege_index = i
-        if price_per_lb > most_expensive:
-            most_expensive = price_per_lb
-            most_expensive_index = i
+try:
+    cheapest_vege_per_lb = -1
+    most_expensive = 0
+    total_vege_weight = 0
+    total_vege_cost = 0
+    i = -1
+    for entry in expense_list:
+        i += 1
+        if entry.category == "Vegetable":
+            weight_in_lb = Q_(entry.quantity).to("lb")
+            price_per_lb = entry.cost / weight_in_lb.magnitude
+            total_vege_weight += weight_in_lb.magnitude
+            total_vege_cost += entry.cost
+            if cheapest_vege_per_lb < 0 or price_per_lb < cheapest_vege_per_lb:
+                cheapest_vege_per_lb = price_per_lb
+                cheapest_vege_index = i
+            if price_per_lb > most_expensive:
+                most_expensive = price_per_lb
+                most_expensive_index = i
 
-print(
-    f"The cheapest vegetable is: ${round(cheapest_vege_per_lb, 2)} per pound, with the following purchase:"
-)
-entry = expense_list[cheapest_vege_index]
-print(expense_string(entry))
-print(
-    f"The most expensive vegetable is: ${round(most_expensive, 2)} per pound, with the following purchase:"
-)
-entry = expense_list[most_expensive_index]
-print(expense_string(entry))
-print(
-    f"You bought {round(total_vege_weight, 1)} lb of vegetable in total, ${round(total_vege_cost / total_vege_weight, 2)} per pound on average."
-)
-print(
-    f"You can save ${round(total_vege_cost - cheapest_vege_per_lb * total_vege_weight, 2)} if you stick with the cheapest option."
-)
+    print(
+        f"The cheapest vegetable is: ${round(cheapest_vege_per_lb, 2)} per pound, with the following purchase:"
+    )
+    entry = expense_list[cheapest_vege_index]
+    print(expense_string(entry))
+    print(
+        f"The most expensive vegetable is: ${round(most_expensive, 2)} per pound, with the following purchase:"
+    )
+    entry = expense_list[most_expensive_index]
+    print(expense_string(entry))
+    print(
+        f"You bought {round(total_vege_weight, 1)} lb of vegetable in total, ${round(total_vege_cost / total_vege_weight, 2)} per pound on average."
+    )
+    print(
+        f"You can save ${round(total_vege_cost - cheapest_vege_per_lb * total_vege_weight, 2)} if you stick with the cheapest option."
+    )
 
+except NameError:
+    print("No vegetable was bought.")
 
 # draw pie charts
 values = [category_tree.total_regular, category_tree.total_irregular]
@@ -253,8 +259,11 @@ for child in category_tree.children:
     irregular_category.append(child.name + f"\n${child.total_irregular}")
     irregular_value.append(child.total_irregular)
 
-axes[2].pie(irregular_value, labels=irregular_category, autopct="%1.1f%%")
-axes[2].set_title(f"Irregular\n${category_tree.total_irregular}")
+try:
+    axes[2].pie(irregular_value, labels=irregular_category, autopct="%1.1f%%")
+    axes[2].set_title(f"Irregular\n${category_tree.total_irregular}")
+except ValueError:
+    print("No irregular expanse.")
 
 figure.suptitle(plot_title)
 
