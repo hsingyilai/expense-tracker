@@ -89,3 +89,10 @@ target/
 # Virtual environment
 .venv/
 
+# files that store personal expenses
+all_expense.pickle
+all_income.pickle
+category_tree.pickle
+income_category_tree.pickle
+irregular_expense_list.pickle
+
