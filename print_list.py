@@ -23,5 +23,3 @@ i = 0
 for item in income_list:
     i += 1
     print(f"{i}. " + income_string(item))
-
-print("Test Message")
