@@ -15,6 +15,10 @@ importer = JsonImporter()
 with open("category_tree.json", "r") as f:
     category_tree = importer.read(f)
 
+with open("irregular_expense_list.json", "r") as file:
+    irregular_list = json.load(file)
+
+
 enter_more = True
 know_date = False
 num_entry = 0
@@ -107,6 +111,14 @@ while enter_more:
         know_date = True
         print(f"Please enter another spending on {date[0]}/{date[1]}/{date[2]}.")
 
+
+# append the irregular expense list for new entries
+for i in range(len(expense_list)):
+    if i >= len(irregular_list):
+        irregular_list.append(False)
+
+with open("irregular_expense_list.json", "w") as f:
+    json.dump(irregular_list, f, indent=4)
 
 expense_list_data = [vars(entry) for entry in expense_list]
 with open("all_expense.json", "w") as f:

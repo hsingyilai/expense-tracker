@@ -30,11 +30,6 @@ with open("income_category_tree.json", "r") as f:
 with open("irregular_expense_list.json", "r") as file:
     irregular_list = json.load(file)
 
-# append the irregular expense list for new entries
-for i in range(len(expense_list)):
-    if i >= len(irregular_list):
-        irregular_list.append(False)
-
 # choose the range to summarize
 message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
 time_range = valid_input(message, ["1", "2"])
