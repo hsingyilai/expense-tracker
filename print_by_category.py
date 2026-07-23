@@ -1,9 +1,13 @@
 import pickle
+import json
+from expense_module import Expense
 from expense_functions import expense_string
 
 
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as file:
+    expense_list_data = json.load(file)
+
+expense_list = [Expense(**entry) for entry in expense_list_data]
 
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)

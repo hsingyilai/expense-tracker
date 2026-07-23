@@ -1,12 +1,15 @@
 from expense_module import Expense
 from expense_functions import ask_category, valid_input, expense_string
 import pickle
+import json
 import datetime
 
 
 # open the saved list
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as file:
+    expense_list_data = json.load(file)
+
+expense_list = [Expense(**entry) for entry in expense_list_data]
 
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)
@@ -104,8 +107,9 @@ while enter_more:
         print(f"Please enter another spending on {date[0]}/{date[1]}/{date[2]}.")
 
 
-with open("all_expense.pickle", "wb") as file:
-    pickle.dump(expense_list, file)
+expense_list_data = [vars(entry) for entry in expense_list]
+with open("all_expense.json", "w") as file:
+    json.dump(expense_list_data, file, indent=4)
 
 print("The following expense(s) has been recorded!")
 for index in range(1, num_entry + 1):

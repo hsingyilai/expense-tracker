@@ -1,10 +1,14 @@
 from expense_functions import ask_category, expense_string
 import pickle
+import json
 import datetime
+from expense_module import Expense
 
 
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as file:
+    expense_list_data = json.load(file)
+
+expense_list = [Expense(**entry) for entry in expense_list_data]
 
 with open("category_tree.pickle", "rb") as file:
     category_tree = pickle.load(file)
@@ -79,8 +83,9 @@ match option:
         valid_option = False
 
 
-with open("all_expense.pickle", "wb") as file:
-    pickle.dump(expense_list, file)
+expense_list_data = [vars(entry) for entry in expense_list]
+with open("all_expense.json", "w") as file:
+    json.dump(expense_list_data, file, indent=4)
 
 if valid_option:
     print("The expense list has been updated!")
