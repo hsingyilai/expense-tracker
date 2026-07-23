@@ -3,13 +3,13 @@ from expense_functions import expense_string, income_string
 from expense_module import Income, Expense
 
 
-with open("all_expense.json", "r") as file:
-    expense_list_data = json.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
 expense_list = [Expense(**entry) for entry in expense_list_data]
 
-with open("all_income.json", "r") as file:
-    income_list_data = json.load(file)
+with open("all_income.json", "r") as f:
+    income_list_data = json.load(f)
 
 income_list = [Income(**entry) for entry in income_list_data]
 

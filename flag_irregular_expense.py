@@ -3,13 +3,13 @@ from expense_functions import expense_string, valid_input
 from expense_module import Expense
 
 
-with open("all_expense.json", "r") as file:
-    expense_list_data = json.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
 expense_list = [Expense(**entry) for entry in expense_list_data]
 
-with open("irregular_expense_list.json", "r") as file:
-    irregular_list = json.load(file)
+with open("irregular_expense_list.json", "r") as f:
+    irregular_list = json.load(f)
 
 
 # append the irregular expense list for new entries
@@ -92,5 +92,5 @@ while index_to_flag != "exit":
     if index_to_flag != "exit":
         irregular_list[int(index_to_flag) - 1] = True
 
-with open("irregular_expense_list.json", "w") as file:
-    json.dump(irregular_list, file, indent=4)
+with open("irregular_expense_list.json", "w") as f:
+    json.dump(irregular_list, f, indent=4)

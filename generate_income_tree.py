@@ -1,4 +1,4 @@
-import pickle
+from anytree.exporter import JsonExporter
 from anytree import Node, RenderTree
 
 all_income_type = Node("All Income Type")
@@ -9,5 +9,8 @@ selling_used = Node("Selling Used", parent=all_income_type)
 
 print(RenderTree(all_income_type).by_attr())
 
-with open("income_category_tree.pickle", "wb") as file:
-    pickle.dump(all_income_type, file)
+exporter = JsonExporter(indent=2)
+all_income_type_json_string = exporter.export(all_income_type)
+
+with open("income_category_tree.json", "w") as f:
+    f.write(all_income_type_json_string)

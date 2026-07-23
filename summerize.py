@@ -1,5 +1,5 @@
-import pickle
 import json
+from anytree.importer import JsonImporter
 from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
 from expense_functions import expense_string, valid_input
@@ -20,11 +20,12 @@ with open("all_income.json", "r") as file:
 
 income_list = [Income(**entry) for entry in income_list_data]
 
-with open("category_tree.pickle", "rb") as file:
-    category_tree = pickle.load(file)
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    category_tree = importer.read(f)
 
-with open("income_category_tree.pickle", "rb") as file:
-    all_income_type = pickle.load(file)
+with open("income_category_tree.json", "r") as f:
+    all_income_type = importer.read(f)
 
 with open("irregular_expense_list.json", "r") as file:
     irregular_list = json.load(file)

@@ -1,8 +1,8 @@
 import json
 from expense_module import Expense
 
-with open("all_expense.json", "r") as file:
-    expense_list_data = json.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
 expense_list = [Expense(**entry) for entry in expense_list_data]
 
@@ -14,5 +14,5 @@ for entry in expense_list:
     i += 1
 
 expense_list_data = [vars(entry) for entry in expense_list]
-with open("all_expense.json", "w") as file:
-    json.dump(expense_list_data, file, indent=4)
+with open("all_expense.json", "w") as f:
+    json.dump(expense_list_data, f, indent=4)

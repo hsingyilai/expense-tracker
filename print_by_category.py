@@ -1,17 +1,17 @@
-import pickle
 import json
+from anytree.importer import JsonImporter
 from expense_module import Expense
 from expense_functions import expense_string
 
 
-with open("all_expense.json", "r") as file:
-    expense_list_data = json.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
 expense_list = [Expense(**entry) for entry in expense_list_data]
 
-with open("category_tree.pickle", "rb") as file:
-    category_tree = pickle.load(file)
-
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    category_tree = importer.read(f)
 
 current_category = category_tree
 next_layer = True

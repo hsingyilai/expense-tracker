@@ -1,18 +1,19 @@
 from expense_module import Expense
 from expense_functions import ask_category, valid_input, expense_string
-import pickle
+from anytree.importer import JsonImporter
 import json
 import datetime
 
 
 # open the saved list
-with open("all_expense.json", "r") as file:
-    expense_list_data = json.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
 expense_list = [Expense(**entry) for entry in expense_list_data]
 
-with open("category_tree.pickle", "rb") as file:
-    category_tree = pickle.load(file)
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    category_tree = importer.read(f)
 
 enter_more = True
 know_date = False
@@ -108,8 +109,8 @@ while enter_more:
 
 
 expense_list_data = [vars(entry) for entry in expense_list]
-with open("all_expense.json", "w") as file:
-    json.dump(expense_list_data, file, indent=4)
+with open("all_expense.json", "w") as f:
+    json.dump(expense_list_data, f, indent=4)
 
 print("The following expense(s) has been recorded!")
 for index in range(1, num_entry + 1):

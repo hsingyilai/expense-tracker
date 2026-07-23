@@ -1,17 +1,19 @@
 from expense_module import Income
 from expense_functions import what_income, income_string
-import pickle
 import json
+from anytree.importer import JsonImporter
 import datetime
 
 
-with open("all_income.json", "r") as file:
-    income_list_data = json.load(file)
+with open("all_income.json", "r") as f:
+    income_list_data = json.load(f)
 
 income_list = [Income(**entry) for entry in income_list_data]
 
-with open("income_category_tree.pickle", "rb") as file:
-    all_income_type = pickle.load(file)
+importer = JsonImporter()
+with open("income_category_tree.json", "r") as f:
+    all_income_type = importer.read(f)
+
 
 print("Income:")
 
@@ -69,8 +71,8 @@ match option:
         valid_option = False
 
 income_list_data = [vars(entry) for entry in income_list]
-with open("all_income.json", "w") as file:
-    json.dump(income_list_data, file, indent=4)
+with open("all_income.json", "w") as f:
+    json.dump(income_list_data, f, indent=4)
 
 if valid_option:
     print("The income list has been updated!")

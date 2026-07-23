@@ -1,9 +1,10 @@
-import pickle
+from anytree.importer import JsonImporter
+from anytree.exporter import JsonExporter
 from anytree import RenderTree
 
-
-with open("category_tree.pickle", "rb") as file:
-    all_category = pickle.load(file)
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    all_category = importer.read(f)
 
 print(RenderTree(all_category).by_attr())
 
@@ -32,5 +33,9 @@ while category_index != "exit":
 
 print(RenderTree(all_category).by_attr())
 
-with open("category_tree.pickle", "wb") as file:
-    pickle.dump(all_category, file)
+
+exporter = JsonExporter(indent=2)
+all_category_json_string = exporter.export(all_category)
+
+with open("category_tree.json", "w") as f:
+    f.write(all_category_json_string)
