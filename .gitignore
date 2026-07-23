@@ -96,3 +96,9 @@ category_tree.pickle
 income_category_tree.pickle
 irregular_expense_list.pickle
 
+all_expense.json
+all_income.json
+category_tree.json
+income_category_tree.json
+irregular_expense_list.json
+
