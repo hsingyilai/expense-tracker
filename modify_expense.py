@@ -1,13 +1,21 @@
 from expense_functions import ask_category, expense_string
-import pickle
+import json
+from anytree.importer import JsonImporter
 import datetime
+from expense_module import Expense
 
 
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
-with open("category_tree.pickle", "rb") as file:
-    category_tree = pickle.load(file)
+expense_list = [Expense(**entry) for entry in expense_list_data]
+
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    category_tree = importer.read(f)
+
+with open("irregular_expense_list.json", "r") as f:
+    irregular_list = json.load(f)
 
 print("Expenses:")
 
@@ -28,6 +36,9 @@ match option:
             int(input("Which entry do you want to delete? (enter a number): ")) - 1
         )
         del expense_list[entry_index]
+        del irregular_list[entry_index]
+        with open("irregular_expense_list.json", "w") as f:
+            json.dump(irregular_list, f, indent=4)
     case "2":
         entry_index = (
             int(input("Which entry do you want to modify? (enter a number): ")) - 1
@@ -79,10 +90,10 @@ match option:
         valid_option = False
 
 
-with open("all_expense.pickle", "wb") as file:
-    pickle.dump(expense_list, file)
-
 if valid_option:
+    expense_list_data = [vars(entry) for entry in expense_list]
+    with open("all_expense.json", "w") as f:
+        json.dump(expense_list_data, f, indent=4)
     print("The expense list has been updated!")
 else:
     print("Please start over again.")

@@ -1,32 +1,34 @@
-import pickle
+import json
+from anytree.importer import JsonImporter
 from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
 from expense_functions import expense_string, valid_input
 import matplotlib.pyplot as plt
+from expense_module import Expense, Income
 
 
 ureg = UnitRegistry()
 Q_ = ureg.Quantity
 
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as file:
+    expense_list_data = json.load(file)
 
-with open("all_income.pickle", "rb") as file:
-    income_list = pickle.load(file)
+expense_list = [Expense(**entry) for entry in expense_list_data]
 
-with open("category_tree.pickle", "rb") as file:
-    category_tree = pickle.load(file)
+with open("all_income.json", "r") as file:
+    income_list_data = json.load(file)
 
-with open("income_category_tree.pickle", "rb") as file:
-    all_income_type = pickle.load(file)
+income_list = [Income(**entry) for entry in income_list_data]
 
-with open("irregular_expense_list.pickle", "rb") as file:
-    irregular_list = pickle.load(file)
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    category_tree = importer.read(f)
 
-# append the irregular expense list for new entries
-for i in range(len(expense_list)):
-    if i >= len(irregular_list):
-        irregular_list.append(False)
+with open("income_category_tree.json", "r") as f:
+    all_income_type = importer.read(f)
+
+with open("irregular_expense_list.json", "r") as file:
+    irregular_list = json.load(file)
 
 # choose the range to summarize
 message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "

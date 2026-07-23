@@ -1,15 +1,23 @@
 from expense_module import Expense
 from expense_functions import ask_category, valid_input, expense_string
-import pickle
+from anytree.importer import JsonImporter
+import json
 import datetime
 
 
 # open the saved list
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
-with open("category_tree.pickle", "rb") as file:
-    category_tree = pickle.load(file)
+expense_list = [Expense(**entry) for entry in expense_list_data]
+
+importer = JsonImporter()
+with open("category_tree.json", "r") as f:
+    category_tree = importer.read(f)
+
+with open("irregular_expense_list.json", "r") as file:
+    irregular_list = json.load(file)
+
 
 enter_more = True
 know_date = False
@@ -104,8 +112,17 @@ while enter_more:
         print(f"Please enter another spending on {date[0]}/{date[1]}/{date[2]}.")
 
 
-with open("all_expense.pickle", "wb") as file:
-    pickle.dump(expense_list, file)
+# append the irregular expense list for new entries
+for i in range(len(expense_list)):
+    if i >= len(irregular_list):
+        irregular_list.append(False)
+
+with open("irregular_expense_list.json", "w") as f:
+    json.dump(irregular_list, f, indent=4)
+
+expense_list_data = [vars(entry) for entry in expense_list]
+with open("all_expense.json", "w") as f:
+    json.dump(expense_list_data, f, indent=4)
 
 print("The following expense(s) has been recorded!")
 for index in range(1, num_entry + 1):

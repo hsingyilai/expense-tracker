@@ -1,15 +1,19 @@
 from expense_module import Income
 from expense_functions import what_income
-import pickle
+import json
+from anytree.importer import JsonImporter
 import datetime
 
 
 # open the saved list
-with open("all_income.pickle", "rb") as file:
-    income_list = pickle.load(file)
+with open("all_income.json", "r") as f:
+    income_list_data = json.load(f)
 
-with open("income_category_tree.pickle", "rb") as file:
-    all_income_type = pickle.load(file)
+income_list = [Income(**entry) for entry in income_list_data]
+
+importer = JsonImporter()
+with open("income_category_tree.json", "r") as f:
+    all_income_type = importer.read(f)
 
 amount = float(input("How much in dollar did you earn?: "))
 
@@ -37,7 +41,8 @@ new_income = Income(date, amount, category, note)
 
 income_list.append(new_income)
 
-with open("all_income.pickle", "wb") as file:
-    pickle.dump(income_list, file)
+income_list_data = [vars(entry) for entry in income_list]
+with open("all_income.json", "w") as f:
+    json.dump(income_list_data, f, indent=4)
 
 print("New income has been recorded!")

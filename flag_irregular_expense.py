@@ -1,12 +1,15 @@
-import pickle
+import json
 from expense_functions import expense_string, valid_input
+from expense_module import Expense
 
 
-with open("all_expense.pickle", "rb") as file:
-    expense_list = pickle.load(file)
+with open("all_expense.json", "r") as f:
+    expense_list_data = json.load(f)
 
-with open("irregular_expense_list.pickle", "rb") as file:
-    irregular_list = pickle.load(file)
+expense_list = [Expense(**entry) for entry in expense_list_data]
+
+with open("irregular_expense_list.json", "r") as f:
+    irregular_list = json.load(f)
 
 
 # append the irregular expense list for new entries
@@ -89,5 +92,5 @@ while index_to_flag != "exit":
     if index_to_flag != "exit":
         irregular_list[int(index_to_flag) - 1] = True
 
-with open("irregular_expense_list.pickle", "wb") as file:
-    pickle.dump(irregular_list, file)
+with open("irregular_expense_list.json", "w") as f:
+    json.dump(irregular_list, f, indent=4)
