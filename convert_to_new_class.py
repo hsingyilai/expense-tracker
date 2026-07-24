@@ -1,6 +1,6 @@
 import json
 import datetime
-from expense_module import Income, Expense, ExpenseEntry
+from expense_module import Expense, ExpenseEntry
 
 
 with open("all_expense.json", "r") as f:
