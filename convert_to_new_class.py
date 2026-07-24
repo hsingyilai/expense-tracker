@@ -17,7 +17,9 @@ for entry in expense_list:
     date = datetime.date(int(entry.date[2]), int(entry.date[0]), int(entry.date[1]))
     note = {"note": entry.note, "quantity": entry.quantity, "tag": entry.tag}
     updated_expense_list.append(
-        ExpenseEntry(str(date), entry.cost, entry.category, note, not irregular_list[i])
+        ExpenseEntry(
+            str(date), entry.cost, entry.category, note, not irregular_list[i], ""
+        )
     )
     i += 1
 

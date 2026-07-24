@@ -8,7 +8,6 @@ class Expense:
         self.tag = tag
 
 
-
 class Income:
     def __init__(self, date, amount, category, note):
         self.date = date
@@ -18,7 +17,7 @@ class Income:
 
 
 class ExpenseEntry:
-    '''An entry to the expense list
+    """An entry to the expense list
 
     This class is the skeleton for recording an expense
 
@@ -28,10 +27,21 @@ class ExpenseEntry:
         category: What category does this expense belongs to.
         note: Things that you want to take notes on according to the category it belongs to.
         regular: True if it is a regular expense.
-    '''
-    def __init__(self, date: str, cost: float, category: str, note: dict, regular: bool):
+        trip: The trip this expense is linked to, "" if none.
+    """
+
+    def __init__(
+        self,
+        date: str,
+        cost: float,
+        category: str,
+        note: dict,
+        regular: bool,
+        trip: str,
+    ):
         self.date = date
         self.cost = cost
         self.category = category
         self.note = note
         self.regular = regular
+        self.trip = trip
