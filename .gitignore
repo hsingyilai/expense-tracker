@@ -90,7 +90,7 @@ target/
 .venv/
 
 # files that store personal expenses
-my_expense.json
+my_expenses.json
 
 all_expense.json
 all_income.json

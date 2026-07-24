@@ -25,5 +25,5 @@ for entry in expense_list:
 
 
 expense_list_data = [vars(entry) for entry in updated_expense_list]
-with open("my_expense.json", "w") as f:
+with open("my_expenses.json", "w") as f:
     json.dump(expense_list_data, f, indent=4)
