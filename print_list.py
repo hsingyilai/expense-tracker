@@ -1,12 +1,12 @@
 import json
 from expense_functions import expense_string, income_string
-from expense_module import Income, Expense
+from expense_module import Income, ExpenseEntry
 
 
-with open("all_expense.json", "r") as f:
+with open("my_expenses.json", "r") as f:
     expense_list_data = json.load(f)
 
-expense_list = [Expense(**entry) for entry in expense_list_data]
+expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
 with open("all_income.json", "r") as f:
     income_list_data = json.load(f)
@@ -27,4 +27,3 @@ i = 0
 for item in income_list:
     i += 1
     print(f"{i}. " + income_string(item))
-

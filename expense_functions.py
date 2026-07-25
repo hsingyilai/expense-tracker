@@ -58,12 +58,11 @@ def what_income(all_income_type):
 
 
 def expense_string(entry):
-    message = f"{entry.date} ${entry.cost} {entry.category} {entry.notes} "
-    if entry.regular:
-        message += "Regular"
-    else:
+    message = f"{entry.date} {entry.category} ${entry.cost} {entry.notes} "
+    if not entry.regular:
         message += "Irregular"
-    message += f" Trip: {entry.trip}"
+    if entry.trip != "":
+        message += f" Trip: {entry.trip}"
     return message
 
 
