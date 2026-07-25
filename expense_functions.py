@@ -10,7 +10,6 @@ def valid_input(message, valid_list):
 
 
 def ask_category(category_tree):
-
     current_category = category_tree
     while current_category.children:
         message = ""
@@ -22,18 +21,21 @@ def ask_category(category_tree):
         message += "(Please enter a number): "
 
         valid_list = [str(i) for i in range(1, i + 1)]
+        valid_list.append("exit")
+        valid_list.append("go back")
         category_index = valid_input(message, valid_list)
+        if category_index == "exit":
+            return "exit"
+        elif category_index == "go back":
+            return "go back"
+        else:
+            enter_index = int(category_index) - 1
+            current_category = current_category.children[enter_index]
 
-        enter_index = int(category_index) - 1
-        current_category = current_category.children[enter_index]
-
-    category = current_category.name
-
-    return category
+    return current_category
 
 
 def what_income(all_income_type):
-
     current_category = all_income_type
 
     while current_category.children:
@@ -56,7 +58,12 @@ def what_income(all_income_type):
 
 
 def expense_string(entry):
-    message = f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} {entry.quantity} ${entry.cost} {entry.tag}"
+    message = f"{entry.date} ${entry.cost} {entry.category} {entry.notes} "
+    if entry.regular:
+        message += "Regular"
+    else:
+        message += "Irregular"
+    message += f" Trip: {entry.trip}"
     return message
 
 
