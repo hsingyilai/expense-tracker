@@ -44,14 +44,14 @@ while next_layer:
             print("Not a valid option.")
 
 print("The notes for this category are:")
-print(choice.note)
+print(choice.notes)
 
 note_to_add = input("What other note do you want to take for this category?")
 
-choice.note.append(note_to_add)
+choice.notes.append(note_to_add)
 
 print("The notes for this category are now:")
-print(choice.note)
+print(choice.notes)
 
 exporter = JsonExporter(indent=2)
 all_category_json_string = exporter.export(category_tree)

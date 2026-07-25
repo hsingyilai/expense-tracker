@@ -25,7 +25,7 @@ class ExpenseEntry:
         date: A datetime.date object converted to string in standard ISO format, such as "2026-07-23".
         cost: How much money does it cost in dollar.
         category: What category does this expense belongs to.
-        note: Things that you want to take notes on according to the category it belongs to.
+        notes: Things that you want to take notes on according to the category it belongs to.
         regular: True if it is a regular expense.
         trip: The trip this expense is linked to, "" if none.
     """
@@ -35,13 +35,13 @@ class ExpenseEntry:
         date: str,
         cost: float,
         category: str,
-        note: dict,
+        notes: dict,
         regular: bool,
         trip: str,
     ):
         self.date = date
         self.cost = cost
         self.category = category
-        self.note = note
+        self.notes = notes
         self.regular = regular
         self.trip = trip

@@ -8,7 +8,7 @@ with open("category_tree.json", "r") as f:
     all_category = importer.read(f)
 
 for category in PreOrderIter(all_category):
-    category.note = ["note"]
+    category.notes = ["note"]
 
 exporter = JsonExporter(indent=2)
 all_category_json_string = exporter.export(all_category)
