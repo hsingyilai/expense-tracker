@@ -70,3 +70,11 @@ def expense_string(entry):
 def income_string(entry):
     message = f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} ${entry.amount}"
     return message
+
+
+def add_note(new_category):
+    choice = valid_input("Do you want to add another note? 1. Yes, 2. No: ", ["1", "2"])
+    if choice == "1":
+        new_note = input("Please enter the name of the note: ")
+        new_category.notes.append(new_note)
+        add_note(new_category)
