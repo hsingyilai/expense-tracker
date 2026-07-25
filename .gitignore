@@ -91,6 +91,7 @@ target/
 
 # files that store personal expenses
 my_expenses.json
+expense_category.json
 
 all_expense.json
 all_income.json
