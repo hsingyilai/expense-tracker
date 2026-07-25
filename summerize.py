@@ -4,16 +4,17 @@ from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
 from expense_functions import expense_string, valid_input
 import matplotlib.pyplot as plt
-from expense_module import Expense, Income
+from expense_module import ExpenseEntry, Income
+import datetime
 
 
 ureg = UnitRegistry()
 Q_ = ureg.Quantity
 
-with open("all_expense.json", "r") as file:
+with open("my_expenses.json", "r") as file:
     expense_list_data = json.load(file)
 
-expense_list = [Expense(**entry) for entry in expense_list_data]
+expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
 with open("all_income.json", "r") as file:
     income_list_data = json.load(file)
@@ -21,14 +22,11 @@ with open("all_income.json", "r") as file:
 income_list = [Income(**entry) for entry in income_list_data]
 
 importer = JsonImporter()
-with open("category_tree.json", "r") as f:
+with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
 with open("income_category_tree.json", "r") as f:
     all_income_type = importer.read(f)
-
-with open("irregular_expense_list.json", "r") as file:
-    irregular_list = json.load(file)
 
 # choose the range to summarize
 message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
@@ -39,7 +37,8 @@ if time_range == "2":
     # figure out how many years
     year_list = []
     for entry in expense_list:
-        year_list.append(int(entry.date[2]))
+        date = datetime.date.fromisoformat(entry.date)
+        year_list.append(date.year)
 
     year_list = list(set(year_list))
     year_list.sort()
@@ -47,9 +46,10 @@ if time_range == "2":
     # figure out the months
     month_list = []  # store year in month in year*100+month integer format
     for entry in expense_list:
+        date = datetime.date.fromisoformat(entry.date)
         for year in year_list:
-            if int(entry.date[2]) == year:
-                month_list.append(year * 100 + int(entry.date[0]))
+            if date.year == year:
+                month_list.append(year * 100 + date.month)
 
     month_list = list(set(month_list))
     month_list.sort()
@@ -68,23 +68,21 @@ if time_range == "2":
         month_selected = input(message)
         if month_selected in [str(x) for x in range(1, i + 1)]:
             valid_response = True
-            month = str(month_list[int(month_selected) - 1] % 100)
-            year = str(month_list[int(month_selected) - 1] // 100)
+            month = month_list[int(month_selected) - 1] % 100
+            year = month_list[int(month_selected) - 1] // 100
         else:
             print("Invalid option.")
 
     # remove all other entries from the list
     new_expense_list = []
-    new_irregular_list = []
     i = 0
     for entry in expense_list:
-        if entry.date[0] == month and entry.date[2] == year:
+        date = datetime.date.fromisoformat(entry.date)
+        if date.month == month and date.year == year:
             new_expense_list.append(entry)
-            new_irregular_list.append(irregular_list[i])
         i += 1
 
     expense_list = new_expense_list
-    irregular_list = new_irregular_list
 
     new_income_list = []
     for entry in income_list:
@@ -93,7 +91,7 @@ if time_range == "2":
 
     income_list = new_income_list
 
-    plot_title = "Monthly Summary: " + month + "/" + year
+    plot_title = "Monthly Summary: " + str(month) + "/" + str(year)
 
 else:
     plot_title = "All Time Summary"
@@ -108,10 +106,11 @@ for category in PreOrderIter(category_tree):
     for entry in expense_list:
         if category.name == entry.category:
             category.total += entry.cost
-            if irregular_list[i]:
-                category.total_irregular += entry.cost
-            else:
+            if entry.regular:
                 category.total_regular += entry.cost
+            else:
+                category.total_irregular += entry.cost
+
         i += 1
 
 # sum the spend of subcategories into categories
@@ -165,7 +164,7 @@ i = -1
 for entry in expense_list:
     i += 1
     if entry.category == "Meat":
-        weight_in_lb = Q_(entry.quantity).to("lb")
+        weight_in_lb = Q_(entry.notes["quantity (weight)"]).to("lb")
         price_per_lb = entry.cost / weight_in_lb.magnitude
         total_meat_weight += weight_in_lb.magnitude
         total_meat_cost += entry.cost
@@ -207,7 +206,7 @@ try:
     for entry in expense_list:
         i += 1
         if entry.category == "Vegetable":
-            weight_in_lb = Q_(entry.quantity).to("lb")
+            weight_in_lb = Q_(entry.notes["quantity (weight)"]).to("lb")
             price_per_lb = entry.cost / weight_in_lb.magnitude
             total_vege_weight += weight_in_lb.magnitude
             total_vege_cost += entry.cost
