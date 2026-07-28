@@ -4,31 +4,29 @@ from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
 from expense_functions import expense_string, valid_input
 import matplotlib.pyplot as plt
-from expense_module import Expense, Income
+from expense_module import ExpenseEntry, IncomeEntry
+import datetime
 
 
 ureg = UnitRegistry()
 Q_ = ureg.Quantity
 
-with open("all_expense.json", "r") as file:
+with open("my_expenses.json", "r") as file:
     expense_list_data = json.load(file)
 
-expense_list = [Expense(**entry) for entry in expense_list_data]
+expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
-with open("all_income.json", "r") as file:
+with open("my_incomes.json", "r") as file:
     income_list_data = json.load(file)
 
-income_list = [Income(**entry) for entry in income_list_data]
+income_list = [IncomeEntry(**entry) for entry in income_list_data]
 
 importer = JsonImporter()
-with open("category_tree.json", "r") as f:
+with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
-with open("income_category_tree.json", "r") as f:
+with open("income_categories.json", "r") as f:
     all_income_type = importer.read(f)
-
-with open("irregular_expense_list.json", "r") as file:
-    irregular_list = json.load(file)
 
 # choose the range to summarize
 message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
@@ -39,7 +37,8 @@ if time_range == "2":
     # figure out how many years
     year_list = []
     for entry in expense_list:
-        year_list.append(int(entry.date[2]))
+        date = datetime.date.fromisoformat(entry.date)
+        year_list.append(date.year)
 
     year_list = list(set(year_list))
     year_list.sort()
@@ -47,9 +46,10 @@ if time_range == "2":
     # figure out the months
     month_list = []  # store year in month in year*100+month integer format
     for entry in expense_list:
+        date = datetime.date.fromisoformat(entry.date)
         for year in year_list:
-            if int(entry.date[2]) == year:
-                month_list.append(year * 100 + int(entry.date[0]))
+            if date.year == year:
+                month_list.append(year * 100 + date.month)
 
     month_list = list(set(month_list))
     month_list.sort()
@@ -68,23 +68,21 @@ if time_range == "2":
         month_selected = input(message)
         if month_selected in [str(x) for x in range(1, i + 1)]:
             valid_response = True
-            month = str(month_list[int(month_selected) - 1] % 100)
-            year = str(month_list[int(month_selected) - 1] // 100)
+            month = month_list[int(month_selected) - 1] % 100
+            year = month_list[int(month_selected) - 1] // 100
         else:
             print("Invalid option.")
 
     # remove all other entries from the list
     new_expense_list = []
-    new_irregular_list = []
     i = 0
     for entry in expense_list:
-        if entry.date[0] == month and entry.date[2] == year:
+        date = datetime.date.fromisoformat(entry.date)
+        if date.month == month and date.year == year:
             new_expense_list.append(entry)
-            new_irregular_list.append(irregular_list[i])
         i += 1
 
     expense_list = new_expense_list
-    irregular_list = new_irregular_list
 
     new_income_list = []
     for entry in income_list:
@@ -93,7 +91,7 @@ if time_range == "2":
 
     income_list = new_income_list
 
-    plot_title = "Monthly Summary: " + month + "/" + year
+    plot_title = "Monthly Summary: " + str(month) + "/" + str(year)
 
 else:
     plot_title = "All Time Summary"
@@ -108,10 +106,11 @@ for category in PreOrderIter(category_tree):
     for entry in expense_list:
         if category.name == entry.category:
             category.total += entry.cost
-            if irregular_list[i]:
-                category.total_irregular += entry.cost
-            else:
+            if entry.regular:
                 category.total_regular += entry.cost
+            else:
+                category.total_irregular += entry.cost
+
         i += 1
 
 # sum the spend of subcategories into categories
@@ -131,7 +130,7 @@ print("Total spending in each category:")
 for category in PreOrderIter(category_tree):
     print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
-print("----------------------")
+print("-" * 100)
 # sum the spending at the last child level
 for income_type in PreOrderIter(all_income_type):
     setattr(income_type, "total", 0)
@@ -155,88 +154,48 @@ for income_type in PreOrderIter(all_income_type):
         f"{len(income_type.ancestors) * '   '}{income_type.name}: ${income_type.total}"
     )
 
-print("----------------------")
+# compare price if quantity (weight) is noted
+for category in PostOrderIter(category_tree):
+    if "quantity (weight)" in category.notes:
+        print("-" * 100)
+        cheapest_per_lb = -1
+        most_expensive = 0
+        total_weight = 0
+        total_cost = 0
+        i = -1
+        for entry in expense_list:
+            i += 1
+            if entry.category == category.name:
+                weight_in_lb = Q_(entry.notes["quantity (weight)"]).to("lb")
+                price_per_lb = entry.cost / weight_in_lb.magnitude
+                total_weight += weight_in_lb.magnitude
+                total_cost += entry.cost
+                if cheapest_per_lb < 0 or price_per_lb < cheapest_per_lb:
+                    cheapest_per_lb = price_per_lb
+                    cheapest_index = i
+                if price_per_lb > most_expensive:
+                    most_expensive = price_per_lb
+                    most_expensive_index = i
+        try:
+            print(
+                f"The cheapest {category.name} is: ${round(cheapest_per_lb, 2)} per pound, with the following purchase:"
+            )
+            entry = expense_list[cheapest_index]
+            print(expense_string(entry))
+            print(
+                f"The most expensive {category.name}  is: ${round(most_expensive, 2)} per pound, with the following purchase:"
+            )
+            entry = expense_list[most_expensive_index]
+            print(expense_string(entry))
+            print(
+                f"You bought {round(total_weight, 1)} lb of meat in total, ${round(total_cost / total_weight, 2)} per pound on average."
+            )
+            print(
+                f"You can save ${round(total_cost - cheapest_per_lb * total_weight, 2)} if you stick with the cheapest option."
+            )
+        except NameError:
+            print(f"No {category.name} was bought.")
 
-cheapest_meat_per_lb = -1
-most_expensive = 0
-total_meat_weight = 0
-total_meat_cost = 0
-i = -1
-for entry in expense_list:
-    i += 1
-    if entry.category == "Meat":
-        weight_in_lb = Q_(entry.quantity).to("lb")
-        price_per_lb = entry.cost / weight_in_lb.magnitude
-        total_meat_weight += weight_in_lb.magnitude
-        total_meat_cost += entry.cost
-        if cheapest_meat_per_lb < 0 or price_per_lb < cheapest_meat_per_lb:
-            cheapest_meat_per_lb = price_per_lb
-            cheapest_meat_index = i
-        if price_per_lb > most_expensive:
-            most_expensive = price_per_lb
-            most_expensive_index = i
-
-try:
-    print(
-        f"The cheapest meat is: ${round(cheapest_meat_per_lb, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[cheapest_meat_index]
-    print(expense_string(entry))
-    print(
-        f"The most expensive meat is: ${round(most_expensive, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[most_expensive_index]
-    print(expense_string(entry))
-    print(
-        f"You bought {round(total_meat_weight, 1)} lb of meat in total, ${round(total_meat_cost / total_meat_weight, 2)} per pound on average."
-    )
-    print(
-        f"You can save ${round(total_meat_cost - cheapest_meat_per_lb * total_meat_weight, 2)} if you stick with the cheapest option."
-    )
-except NameError:
-    print("No meat was bought.")
-
-print("----------------------")
-
-try:
-    cheapest_vege_per_lb = -1
-    most_expensive = 0
-    total_vege_weight = 0
-    total_vege_cost = 0
-    i = -1
-    for entry in expense_list:
-        i += 1
-        if entry.category == "Vegetable":
-            weight_in_lb = Q_(entry.quantity).to("lb")
-            price_per_lb = entry.cost / weight_in_lb.magnitude
-            total_vege_weight += weight_in_lb.magnitude
-            total_vege_cost += entry.cost
-            if cheapest_vege_per_lb < 0 or price_per_lb < cheapest_vege_per_lb:
-                cheapest_vege_per_lb = price_per_lb
-                cheapest_vege_index = i
-            if price_per_lb > most_expensive:
-                most_expensive = price_per_lb
-                most_expensive_index = i
-
-    print(
-        f"The cheapest vegetable is: ${round(cheapest_vege_per_lb, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[cheapest_vege_index]
-    print(expense_string(entry))
-    print(
-        f"The most expensive vegetable is: ${round(most_expensive, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[most_expensive_index]
-    print(expense_string(entry))
-    print(
-        f"You bought {round(total_vege_weight, 1)} lb of vegetable in total, ${round(total_vege_cost / total_vege_weight, 2)} per pound on average."
-    )
-    print(
-        f"You can save ${round(total_vege_cost - cheapest_vege_per_lb * total_vege_weight, 2)} if you stick with the cheapest option."
-    )
-
-except NameError:
-    print("No vegetable was bought.")
 
 # draw pie charts
 values = [category_tree.total_regular, category_tree.total_irregular]

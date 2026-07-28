@@ -1,16 +1,16 @@
 import json
 from anytree.importer import JsonImporter
-from expense_module import Expense
+from expense_module import ExpenseEntry
 from expense_functions import expense_string
 
 
-with open("all_expense.json", "r") as f:
+with open("my_expenses.json", "r") as f:
     expense_list_data = json.load(f)
 
-expense_list = [Expense(**entry) for entry in expense_list_data]
+expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
 importer = JsonImporter()
-with open("category_tree.json", "r") as f:
+with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
 current_category = category_tree
