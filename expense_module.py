@@ -6,6 +6,25 @@ class Income:
         self.note = note
 
 
+class IncomeEntry:
+    """An entry to the income list
+
+    This class is the skeleton for recording an income
+
+    Attributes:
+        date: A datetime.date object converted to string in standard ISO format, such as "2026-07-23".
+        cost: How much money was earned in dollar.
+        category: What category does this income belongs to.
+        note: A text entry to take notes on this income.
+    """
+
+    def __init__(self, date: str, amount: float, category: str, note: str):
+        self.date = date
+        self.amount = amount
+        self.category = category
+        self.note = note
+
+
 class ExpenseEntry:
     """An entry to the expense list
 

@@ -1,6 +1,6 @@
 import json
 import datetime
-from expense_module import Expense, ExpenseEntry
+from expense_module import Expense, ExpenseEntry, Income, IncomeEntry
 from anytree import PreOrderIter
 from anytree.importer import JsonImporter
 
