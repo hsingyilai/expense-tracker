@@ -33,11 +33,9 @@ while stage > 0:
                     else:
                         valid_cost = True
                         stage = 4
-                        print("")
                 elif cost_input == "exit":
                     valid_cost = True
                     stage = -1
-                    print("")
                 else:
                     try:
                         cost = float(cost_input)
@@ -55,23 +53,18 @@ while stage > 0:
                             "",
                         )
                         stage = 2
-                        print("")
         case 2:  # enter the category
-            print("Entry in edit:")
-            print(expense_string(entry_in_edit))
-            print('Enter "go back" to go back, "exit" to exit. ')
-            print("Please choose the category.")
+            print(
+                'Please choose the category. Enter "go back" to go back, "exit" to exit.'
+            )
             category_node = ask_category(category_tree)
             if category_node == "exit":
                 stage = -1
-                print("")
             elif category_node == "go back":
                 stage = 1
-                print("")
             else:
                 entry_in_edit.category = category_node.name
                 stage = 3
-                print("")
 
         case 3:  # enter notes
             for node in PreOrderIter(category_tree):
@@ -80,17 +73,19 @@ while stage > 0:
             for key in category_node.notes:
                 entry_in_edit.notes[key] = input(f"Please enter the {key}: ")
             stage = 4
-            print("")
         case 4:  # decide next step
             print(f"The expense you will record is:\n{expense_string(entry_in_edit)}")
-            print('Enter "go back" to go back, "exit" to save this entry and exit,')
 
-            message = "Or choose from: 1. Change date, 2. Flag as "
+            message = "Please choose from: 1. Change date, 2. Flag as "
             if entry_in_edit.regular:
                 message += "irregular"
             else:
                 message += "regular"
-            message += ", 3. Link to a trip, 4. Save and record another expense on the same date. "
+            message += ", 3. Link to a trip, 4. Save and record another expense. "
+
+            message += (
+                'Enter "go back" to go back, "exit" to save this entry and exit. '
+            )
 
             response = valid_input(
                 message,
@@ -99,14 +94,13 @@ while stage > 0:
             match response:
                 case "go back":
                     stage = 3
-                    print("")
                 case "exit":
                     stage = -1
                     expense_list.append(entry_in_edit)
                     expense_list_data = [vars(entry) for entry in expense_list]
                     with open("my_expenses.json", "w") as f:
                         json.dump(expense_list_data, f, indent=4)
-                    print("\nThe expense:")
+                    print("The expense:")
                     print(expense_string(entry_in_edit))
                     print("has been recorded!")
                 case "1":
@@ -122,14 +116,11 @@ while stage > 0:
                         else:
                             valid_date = True
                             entry_in_edit.date = str(the_date)
-                            print("")
 
                 case "2":
                     entry_in_edit.regular = not entry_in_edit.regular
-                    print("")
                 case "3":
                     entry_in_edit.trip = input("Please enter the name of the trip: ")
-                    print("")
                 case "4":
                     expense_list.append(entry_in_edit)
                     expense_list_data = [vars(entry) for entry in expense_list]
@@ -139,4 +130,3 @@ while stage > 0:
                     print(expense_string(entry_in_edit))
                     print("has been recorded!")
                     stage = 1
-                    print("")

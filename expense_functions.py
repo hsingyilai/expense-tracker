@@ -1,3 +1,6 @@
+import datetime
+
+
 def valid_input(message, valid_list):
     valid = False
     while not valid:
@@ -58,7 +61,10 @@ def what_income(all_income_type):
 
 
 def expense_string(entry):
-    message = f"{entry.date} {entry.category} ${entry.cost} {entry.notes} "
+    date = datetime.date.fromisoformat(entry.date)
+    message = (
+        f"{date.strftime("%m/%d/%Y")} {entry.category} ${entry.cost} {entry.notes} "
+    )
     if not entry.regular:
         message += "Irregular"
     if entry.trip != "":
