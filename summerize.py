@@ -130,7 +130,7 @@ print("Total spending in each category:")
 for category in PreOrderIter(category_tree):
     print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
-print("----------------------")
+print("-" * 100)
 # sum the spending at the last child level
 for income_type in PreOrderIter(all_income_type):
     setattr(income_type, "total", 0)
@@ -154,88 +154,48 @@ for income_type in PreOrderIter(all_income_type):
         f"{len(income_type.ancestors) * '   '}{income_type.name}: ${income_type.total}"
     )
 
-print("----------------------")
+# compare price if quantity (weight) is noted
+for category in PostOrderIter(category_tree):
+    if "quantity (weight)" in category.notes:
+        print("-" * 100)
+        cheapest_per_lb = -1
+        most_expensive = 0
+        total_weight = 0
+        total_cost = 0
+        i = -1
+        for entry in expense_list:
+            i += 1
+            if entry.category == category.name:
+                weight_in_lb = Q_(entry.notes["quantity (weight)"]).to("lb")
+                price_per_lb = entry.cost / weight_in_lb.magnitude
+                total_weight += weight_in_lb.magnitude
+                total_cost += entry.cost
+                if cheapest_per_lb < 0 or price_per_lb < cheapest_per_lb:
+                    cheapest_per_lb = price_per_lb
+                    cheapest_index = i
+                if price_per_lb > most_expensive:
+                    most_expensive = price_per_lb
+                    most_expensive_index = i
+        try:
+            print(
+                f"The cheapest {category.name} is: ${round(cheapest_per_lb, 2)} per pound, with the following purchase:"
+            )
+            entry = expense_list[cheapest_index]
+            print(expense_string(entry))
+            print(
+                f"The most expensive {category.name}  is: ${round(most_expensive, 2)} per pound, with the following purchase:"
+            )
+            entry = expense_list[most_expensive_index]
+            print(expense_string(entry))
+            print(
+                f"You bought {round(total_weight, 1)} lb of meat in total, ${round(total_cost / total_weight, 2)} per pound on average."
+            )
+            print(
+                f"You can save ${round(total_cost - cheapest_per_lb * total_weight, 2)} if you stick with the cheapest option."
+            )
+        except NameError:
+            print(f"No {category.name} was bought.")
 
-cheapest_meat_per_lb = -1
-most_expensive = 0
-total_meat_weight = 0
-total_meat_cost = 0
-i = -1
-for entry in expense_list:
-    i += 1
-    if entry.category == "Meat":
-        weight_in_lb = Q_(entry.notes["quantity (weight)"]).to("lb")
-        price_per_lb = entry.cost / weight_in_lb.magnitude
-        total_meat_weight += weight_in_lb.magnitude
-        total_meat_cost += entry.cost
-        if cheapest_meat_per_lb < 0 or price_per_lb < cheapest_meat_per_lb:
-            cheapest_meat_per_lb = price_per_lb
-            cheapest_meat_index = i
-        if price_per_lb > most_expensive:
-            most_expensive = price_per_lb
-            most_expensive_index = i
-
-try:
-    print(
-        f"The cheapest meat is: ${round(cheapest_meat_per_lb, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[cheapest_meat_index]
-    print(expense_string(entry))
-    print(
-        f"The most expensive meat is: ${round(most_expensive, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[most_expensive_index]
-    print(expense_string(entry))
-    print(
-        f"You bought {round(total_meat_weight, 1)} lb of meat in total, ${round(total_meat_cost / total_meat_weight, 2)} per pound on average."
-    )
-    print(
-        f"You can save ${round(total_meat_cost - cheapest_meat_per_lb * total_meat_weight, 2)} if you stick with the cheapest option."
-    )
-except NameError:
-    print("No meat was bought.")
-
-print("----------------------")
-
-try:
-    cheapest_vege_per_lb = -1
-    most_expensive = 0
-    total_vege_weight = 0
-    total_vege_cost = 0
-    i = -1
-    for entry in expense_list:
-        i += 1
-        if entry.category == "Vegetable":
-            weight_in_lb = Q_(entry.notes["quantity (weight)"]).to("lb")
-            price_per_lb = entry.cost / weight_in_lb.magnitude
-            total_vege_weight += weight_in_lb.magnitude
-            total_vege_cost += entry.cost
-            if cheapest_vege_per_lb < 0 or price_per_lb < cheapest_vege_per_lb:
-                cheapest_vege_per_lb = price_per_lb
-                cheapest_vege_index = i
-            if price_per_lb > most_expensive:
-                most_expensive = price_per_lb
-                most_expensive_index = i
-
-    print(
-        f"The cheapest vegetable is: ${round(cheapest_vege_per_lb, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[cheapest_vege_index]
-    print(expense_string(entry))
-    print(
-        f"The most expensive vegetable is: ${round(most_expensive, 2)} per pound, with the following purchase:"
-    )
-    entry = expense_list[most_expensive_index]
-    print(expense_string(entry))
-    print(
-        f"You bought {round(total_vege_weight, 1)} lb of vegetable in total, ${round(total_vege_cost / total_vege_weight, 2)} per pound on average."
-    )
-    print(
-        f"You can save ${round(total_vege_cost - cheapest_vege_per_lb * total_vege_weight, 2)} if you stick with the cheapest option."
-    )
-
-except NameError:
-    print("No vegetable was bought.")
 
 # draw pie charts
 values = [category_tree.total_regular, category_tree.total_irregular]
