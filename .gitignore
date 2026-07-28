@@ -91,11 +91,7 @@ target/
 
 # files that store personal expenses
 my_expenses.json
+my_incomes.json
 expense_categories.json
-
-all_expense.json
-all_income.json
-category_tree.json
-income_category_tree.json
-irregular_expense_list.json
+income_categories.json
 

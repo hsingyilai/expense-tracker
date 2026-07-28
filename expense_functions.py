@@ -73,7 +73,10 @@ def expense_string(entry):
 
 
 def income_string(entry):
-    message = f"{entry.date[0]}/{entry.date[1]}/{entry.date[2]} {entry.category} {entry.note} ${entry.amount}"
+    date = datetime.date.fromisoformat(entry.date)
+    message = (
+        f"{date.strftime("%m/%d/%Y")} {entry.category} {entry.note} ${entry.amount}"
+    )
     return message
 
 

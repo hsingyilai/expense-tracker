@@ -4,7 +4,7 @@ from anytree import PreOrderIter, PostOrderIter
 from pint import UnitRegistry
 from expense_functions import expense_string, valid_input
 import matplotlib.pyplot as plt
-from expense_module import ExpenseEntry, Income
+from expense_module import ExpenseEntry, IncomeEntry
 import datetime
 
 
@@ -16,16 +16,16 @@ with open("my_expenses.json", "r") as file:
 
 expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
-with open("all_income.json", "r") as file:
+with open("my_incomes.json", "r") as file:
     income_list_data = json.load(file)
 
-income_list = [Income(**entry) for entry in income_list_data]
+income_list = [IncomeEntry(**entry) for entry in income_list_data]
 
 importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
-with open("income_category_tree.json", "r") as f:
+with open("income_categories.json", "r") as f:
     all_income_type = importer.read(f)
 
 # choose the range to summarize
