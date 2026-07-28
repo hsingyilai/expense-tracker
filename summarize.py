@@ -113,7 +113,7 @@ for category in PreOrderIter(category_tree):
 
         i += 1
 
-# sum the spend of subcategories into categories
+# sum the income of subcategories into categories
 for category in PostOrderIter(category_tree):
     for child in category.children:
         category.total += child.total
@@ -138,7 +138,7 @@ for income_type in PreOrderIter(all_income_type):
         if income_type.name == entry.category:
             income_type.total += entry.amount
 
-# sum the spend of subcategories into categories
+# sum the income of subcategories into categories
 for income_type in PostOrderIter(all_income_type):
     for child in income_type.children:
         income_type.total += child.total
