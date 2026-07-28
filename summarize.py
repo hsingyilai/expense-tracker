@@ -208,21 +208,23 @@ axes[1].set_title(f"Total Spending\n${category_tree.total}")
 regular_category = []
 regular_value = []
 for child in category_tree.children:
-    regular_category.append(child.name + f"\n${child.total_regular}")
-    regular_value.append(child.total_regular)
+    if child.total_regular > 0:
+        regular_category.append(child.name + f" ${child.total_regular}")
+        regular_value.append(child.total_regular)
 
 axes[0].pie(regular_value, labels=regular_category, autopct="%1.1f%%", startangle=180)
-axes[0].set_title(f"Regular\n${category_tree.total_regular}")
+axes[0].set_title(f"Regular ${category_tree.total_regular}")
 
 irregular_category = []
 irregular_value = []
 for child in category_tree.children:
-    irregular_category.append(child.name + f"\n${child.total_irregular}")
-    irregular_value.append(child.total_irregular)
+    if child.total_irregular > 0:
+        irregular_category.append(child.name + f" ${child.total_irregular}")
+        irregular_value.append(child.total_irregular)
 
 try:
     axes[2].pie(irregular_value, labels=irregular_category, autopct="%1.1f%%")
-    axes[2].set_title(f"Irregular\n${category_tree.total_irregular}")
+    axes[2].set_title(f"Irregular ${category_tree.total_irregular}")
 except ValueError:
     print("No irregular expanse.")
 

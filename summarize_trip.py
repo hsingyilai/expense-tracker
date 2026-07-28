@@ -65,10 +65,8 @@ for category in PreOrderIter(category_tree):
     if category.total > 0:
         print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
         if len(category.children) == 0:
-            total_category.append(category.name + f"\n${category.total}")
+            total_category.append(category.name + f" ${category.total}")
             total_value.append(category.total)
-
-print("-" * 100)
 
 
 # draw pie charts
