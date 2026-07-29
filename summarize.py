@@ -1,3 +1,4 @@
+# This script summarize the expenses and incomes.
 import json
 from anytree.importer import JsonImporter
 from anytree import PreOrderIter, PostOrderIter
@@ -11,6 +12,8 @@ import datetime
 ureg = UnitRegistry()
 Q_ = ureg.Quantity
 
+
+# Load the expense list, income list and categories.
 with open("my_expenses.json", "r") as file:
     expense_list_data = json.load(file)
 
@@ -28,13 +31,14 @@ with open("expense_categories.json", "r") as f:
 with open("income_categories.json", "r") as f:
     all_income_type = importer.read(f)
 
-# choose the range to summarize
+
+# Choose the time range to summarize.
 message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
 time_range = valid_input(message, ["1", "2"])
 
-# select the month to summarize
+# Select the month to summarize.
 if time_range == "2":
-    # figure out how many years
+    # Figure out the options of year.
     year_list = []
     for entry in expense_list:
         date = datetime.date.fromisoformat(entry.date)
@@ -43,8 +47,8 @@ if time_range == "2":
     year_list = list(set(year_list))
     year_list.sort()
 
-    # figure out the months
-    month_list = []  # store year in month in year*100+month integer format
+    # Figure out the options of month.
+    month_list = []  # Store year in month in (year * 100 + month) integer format.
     for entry in expense_list:
         date = datetime.date.fromisoformat(entry.date)
         for year in year_list:
@@ -54,7 +58,7 @@ if time_range == "2":
     month_list = list(set(month_list))
     month_list.sort()
 
-    # ask which month to summarize
+    # Ask which month to summarize.
     message = "Please select a month. "
     i = 0
     for month in month_list:
@@ -73,7 +77,7 @@ if time_range == "2":
         else:
             print("Invalid option.")
 
-    # remove all other entries from the list
+    # Remove all other entries from the list.
     new_expense_list = []
     i = 0
     for entry in expense_list:
@@ -97,7 +101,7 @@ else:
     plot_title = "All Time Summary"
 
 
-# sum the spending at the last child level
+# Sum the spending at the last child level.
 for category in PreOrderIter(category_tree):
     setattr(category, "total", 0)
     setattr(category, "total_regular", 0)
@@ -113,7 +117,7 @@ for category in PreOrderIter(category_tree):
 
         i += 1
 
-# sum the income of subcategories into categories
+# Sum the income of subcategories into categories.
 for category in PostOrderIter(category_tree):
     for child in category.children:
         category.total += child.total
@@ -131,14 +135,14 @@ for category in PreOrderIter(category_tree):
     print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
 print("-" * 100)
-# sum the spending at the last child level
+# Sum the spending at the last child level.
 for income_type in PreOrderIter(all_income_type):
     setattr(income_type, "total", 0)
     for entry in income_list:
         if income_type.name == entry.category:
             income_type.total += entry.amount
 
-# sum the income of subcategories into categories
+# Sum the income of subcategories into categories.
 for income_type in PostOrderIter(all_income_type):
     for child in income_type.children:
         income_type.total += child.total
@@ -154,7 +158,7 @@ for income_type in PreOrderIter(all_income_type):
         f"{len(income_type.ancestors) * '   '}{income_type.name}: ${income_type.total}"
     )
 
-# compare price if quantity (weight) is noted
+# Compare price if quantity (weight) is noted.
 for category in PostOrderIter(category_tree):
     if "quantity (weight)" in category.notes:
         print("-" * 100)
@@ -197,7 +201,7 @@ for category in PostOrderIter(category_tree):
             print(f"No {category.name} was bought.")
 
 
-# draw pie charts
+# Draw the pie charts.
 values = [category_tree.total_regular, category_tree.total_irregular]
 
 figure, axes = plt.subplots(1, 3)

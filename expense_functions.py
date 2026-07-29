@@ -1,3 +1,4 @@
+# This script has all the functions defined for this project.
 import datetime
 from anytree import Node
 from expense_module import ExpenseEntry, IncomeEntry

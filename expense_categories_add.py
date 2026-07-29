@@ -1,8 +1,11 @@
+# This script is for the user to add new categories to the expense category tree.
 from anytree import Node, RenderTree
 from expense_functions import valid_input, add_note
 from anytree.exporter import JsonExporter
 from anytree.importer import JsonImporter
 
+
+# Load the expense category tree.
 importer = JsonImporter()
 
 with open("expense_categories.json", "r") as f:
@@ -10,6 +13,8 @@ with open("expense_categories.json", "r") as f:
 
 print(RenderTree(all_category).by_attr())
 
+
+# Start the while loop for adding new categories.
 current_category = all_category
 category_index = ""
 while category_index != "exit":
@@ -39,6 +44,7 @@ while category_index != "exit":
 print(RenderTree(all_category).by_attr())
 
 
+# Save the new expense category tree.
 exporter = JsonExporter(indent=2)
 all_category_json_string = exporter.export(all_category)
 

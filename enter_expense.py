@@ -1,3 +1,4 @@
+# This script is for the user to record expenses.
 from expense_module import ExpenseEntry
 from expense_functions import ask_category, valid_input, expense_string
 from anytree.importer import JsonImporter
@@ -5,7 +6,7 @@ from anytree import PreOrderIter
 import json
 import datetime
 
-# open the saved list
+# Load the saved list and categories.
 with open("my_expenses.json", "r") as f:
     expense_list_data = json.load(f)
 
@@ -15,11 +16,12 @@ importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
-stage = 1  # for controlling which stage we're in
+# Start the while loop of inputing expense.
+stage = 1  # For controlling which stage we're in.
 the_date = datetime.date.today()
 while stage > 0:
     match stage:
-        case 1:  # enter the cost
+        case 1:  # Enter the cost.
             valid_cost = False
             while not valid_cost:
                 print('Enter "go back" to go back, "exit" to exit. ')
@@ -43,7 +45,7 @@ while stage > 0:
                         print("Invalid Input. Please only enter a number.")
                     else:
                         valid_cost = True
-                        # create the entry, with placeholders
+                        # Create the entry, with placeholders.
                         entry_in_edit = ExpenseEntry(
                             str(the_date),
                             cost,
@@ -53,7 +55,7 @@ while stage > 0:
                             "",
                         )
                         stage = 2
-        case 2:  # enter the category
+        case 2:  # Enter the category.
             print(
                 'Please choose the category. Enter "go back" to go back, "exit" to exit.'
             )
@@ -66,14 +68,14 @@ while stage > 0:
                 entry_in_edit.category = category_node.name
                 stage = 3
 
-        case 3:  # enter notes
+        case 3:  # Enter notes.
             for node in PreOrderIter(category_tree):
                 if node.name == entry_in_edit.category:
                     category_node = node
             for key in category_node.notes:
                 entry_in_edit.notes[key] = input(f"Please enter the {key}: ")
             stage = 4
-        case 4:  # decide next step
+        case 4:  # Decide the next step.
             print(f"The expense you will record is:\n{expense_string(entry_in_edit)}")
 
             message = "Please choose from: 1. Change date, 2. Flag as "

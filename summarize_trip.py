@@ -1,3 +1,4 @@
+# This script summarized the expenses linked to a single trip.
 import json
 from anytree.importer import JsonImporter
 from anytree import PreOrderIter, PostOrderIter
@@ -5,7 +6,7 @@ from expense_functions import valid_input
 import matplotlib.pyplot as plt
 from expense_module import ExpenseEntry
 
-
+# Load the expense list and expense categories.
 with open("my_expenses.json", "r") as file:
     expense_list_data = json.load(file)
 
@@ -16,6 +17,7 @@ with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
 
+# Create the list of trips for the user to select.
 trip_list = []
 for entry in expense_list:
     if entry.trip != "":
@@ -24,7 +26,7 @@ for entry in expense_list:
 trip_list = list(set(trip_list))
 trip_list.sort()
 
-# ask which trip to summarize
+# Ask which trip to summarize.
 message = "Please select a trip. "
 
 i = 0
@@ -35,7 +37,7 @@ for trip in trip_list:
 message += "(Please enter a number): "
 trip_selected = valid_input(message, [str(i) for i in range(1, len(trip_list) + 1)])
 
-# remove all other entries from the list
+# Remove all other entries from the list.
 new_expense_list = []
 for entry in expense_list:
     if entry.trip == trip_list[int(trip_selected) - 1]:
@@ -43,14 +45,14 @@ for entry in expense_list:
 
 expense_list = new_expense_list
 
-# sum the spending at the last child level
+# Sum the spending at the last child level.
 for category in PreOrderIter(category_tree):
     setattr(category, "total", 0)
     for entry in expense_list:
         if category.name == entry.category:
             category.total += entry.cost
 
-# sum the spend of subcategories into categories
+# Sum the spending of subcategories into categories.
 for category in PostOrderIter(category_tree):
     for child in category.children:
         category.total += child.total
@@ -69,7 +71,7 @@ for category in PreOrderIter(category_tree):
             total_value.append(category.total)
 
 
-# draw pie charts
+# Draw the pie charts.
 plot_title = trip_list[int(trip_selected) - 1]
 plt.pie(total_value, labels=total_category, autopct="%1.1f%%")
 plt.title(plot_title)

@@ -1,3 +1,4 @@
+# This script is for the user to record an income.
 from expense_module import IncomeEntry
 from expense_functions import what_income
 import json
@@ -5,7 +6,7 @@ from anytree.importer import JsonImporter
 import datetime
 
 
-# open the saved list
+# Load the saved list and categories.
 with open("my_incomes.json", "r") as f:
     income_list_data = json.load(f)
 
@@ -15,6 +16,8 @@ importer = JsonImporter()
 with open("income_categories.json", "r") as f:
     all_income_type = importer.read(f)
 
+
+# Start the input process.
 amount = float(input("How much in dollar did you earn?: "))
 
 category = what_income(all_income_type)
@@ -40,11 +43,12 @@ match is_today:
                 valid_date = True
                 date = str(the_date)
 
-# append the new expense
+# Append the new income.
 new_income = IncomeEntry(date, amount, category, note)
 
 income_list.append(new_income)
 
+# Save the income list with new income.
 income_list_data = [vars(entry) for entry in income_list]
 with open("my_incomes.json", "w") as f:
     json.dump(income_list_data, f, indent=4)

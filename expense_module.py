@@ -1,3 +1,6 @@
+# This script has all the class defined for this project.
+
+
 class IncomeEntry:
     """An entry to the income list
 

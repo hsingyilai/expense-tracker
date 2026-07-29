@@ -1,9 +1,10 @@
+# This script print out all the expenses in the selected category.
 import json
 from anytree.importer import JsonImporter
 from expense_module import ExpenseEntry
 from expense_functions import expense_string
 
-
+# Load the expense list and category tree.
 with open("my_expenses.json", "r") as f:
     expense_list_data = json.load(f)
 
@@ -13,6 +14,8 @@ importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
     category_tree = importer.read(f)
 
+
+# Ask for which category to print.
 current_category = category_tree
 next_layer = True
 while next_layer:
@@ -50,6 +53,8 @@ while next_layer:
         else:
             print("Not a valid option.")
 
+
+# Print the expenses in the selected category.
 print(category_to_print + " expenses:")
 
 for node in category_tree.descendants:
