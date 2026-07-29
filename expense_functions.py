@@ -1,7 +1,17 @@
 import datetime
+from anytree import Node
+from expense_module import ExpenseEntry, IncomeEntry
 
 
-def valid_input(message, valid_list):
+def valid_input(message: str, valid_list: list[str]) -> str:
+    """Use a while loop to keep asking input until it matchs an listed element.
+    Args:
+        message: The message displayed to user when asking input.
+        valid_list: List of valid input from the user.
+
+    Returns:
+        The input from the user, should match one of the elements in valid_list.
+    """
     valid = False
     while not valid:
         input_string = input(message)
@@ -12,7 +22,14 @@ def valid_input(message, valid_list):
     return input_string
 
 
-def ask_category(category_tree):
+def ask_category(category_tree: Node) -> Node | str:
+    """Let user select a expense category.
+    Args:
+        category_tree: The category tree storing the expense categories.
+
+    Returns:
+        One of the categories, or string "exit", "go back".
+    """
     current_category = category_tree
     while current_category.children:
         message = ""
@@ -38,7 +55,14 @@ def ask_category(category_tree):
     return current_category
 
 
-def what_income(all_income_type):
+def what_income(all_income_type: Node) -> str:
+    """Let user select an income category.
+    Args:
+        all_income_type: The category tree storing the income categories.
+
+    Returns:
+        The name of the selected income categories.
+    """
     current_category = all_income_type
 
     while current_category.children:
@@ -60,7 +84,17 @@ def what_income(all_income_type):
     return category
 
 
-def expense_string(entry):
+def expense_string(entry: ExpenseEntry) -> str:
+    """Convert an expense into readable string.
+
+    Some details such as regular, trip are omitted if none.
+
+    Args:
+        entry: The entry of expense to convert.
+
+    Returns:
+        A single line string listing the data recorded in the expense entry.
+    """
     date = datetime.date.fromisoformat(entry.date)
     message = (
         f"{date.strftime("%m/%d/%Y")} {entry.category} ${entry.cost} {entry.notes} "
@@ -72,7 +106,14 @@ def expense_string(entry):
     return message
 
 
-def income_string(entry):
+def income_string(entry: IncomeEntry) -> str:
+    """Convert an income into readable string.
+    Args:
+        entry: The entry of income to convert.
+
+    Returns:
+        A single line string listing the data recorded in the income entry.
+    """
     date = datetime.date.fromisoformat(entry.date)
     message = (
         f"{date.strftime("%m/%d/%Y")} {entry.category} {entry.note} ${entry.amount}"
@@ -80,9 +121,13 @@ def income_string(entry):
     return message
 
 
-def add_note(new_category):
+def add_note(category: Node) -> None:
+    """Let user add notes to a expense cateogry with recursion.
+    Args:
+        category: The expense category to add notes to.
+    """
     choice = valid_input("Do you want to add another note? 1. Yes, 2. No: ", ["1", "2"])
     if choice == "1":
         new_note = input("Please enter the name of the note: ")
-        new_category.notes.append(new_note)
-        add_note(new_category)
+        category.notes.append(new_note)
+        add_note(category)
