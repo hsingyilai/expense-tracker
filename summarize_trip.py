@@ -8,8 +8,8 @@ from expense_module import ExpenseEntry
 
 
 try:  # Load the expense list and expense categories.
-    with open("my_expenses.json", "r") as file:
-        expense_list_data = json.load(file)
+    with open("my_expenses.json", "r") as f:
+        expense_list_data = json.load(f)
     expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
     importer = JsonImporter()
     with open("expense_categories.json", "r") as f:
