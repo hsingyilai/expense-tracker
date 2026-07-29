@@ -13,13 +13,9 @@ ureg = UnitRegistry()
 Q_ = ureg.Quantity
 
 
-# Load the expense list, income list and categories.
-try:
+try:  # Load the expense list, income list and categories.
     with open("my_expenses.json", "r") as f:
         expense_list_data = json.load(f)
-except FileNotFoundError:
-    print("Please run initialize_data.py first")
-else:
     expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
     with open("my_incomes.json", "r") as f:
@@ -33,7 +29,9 @@ else:
 
     with open("income_categories.json", "r") as f:
         income_type = importer.read(f)
-
+except FileNotFoundError:
+    print("Please run initialize_data.py first")
+else:
     # Choose the time range to summarize.
     message = "What range fo date do you want to summarize? 1. All time, 2. Specific month (Please enter a number): "
     time_range = valid_input(message, ["1", "2"])

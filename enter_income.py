@@ -6,19 +6,16 @@ from anytree.importer import JsonImporter
 import datetime
 
 
-# Load the saved list and categories.
-try:
+try:  # Load the saved list and categories.
     with open("my_incomes.json", "r") as f:
         income_list_data = json.load(f)
-except FileNotFoundError:
-    print("Please run initialize_data.py first.")
-else:
-    income_list = [IncomeEntry(**entry) for entry in income_list_data]
-
     importer = JsonImporter()
     with open("income_categories.json", "r") as f:
         income_type = importer.read(f)
-
+    income_list = [IncomeEntry(**entry) for entry in income_list_data]
+except FileNotFoundError:
+    print("Please run initialize_data.py first.")
+else:
     # Start the input process.
     amount = float(input("How much in dollar did you earn?: "))
 

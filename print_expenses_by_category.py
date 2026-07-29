@@ -4,19 +4,17 @@ from anytree.importer import JsonImporter
 from expense_module import ExpenseEntry
 from expense_functions import expense_string
 
-# Load the expense list and category tree.
-try:
+
+try:  # Load the expense list and category tree.
     with open("my_expenses.json", "r") as f:
         expense_list_data = json.load(f)
-except FileNotFoundError:
-    print("Please run initialize_data.py first.")
-else:
     expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
-
     importer = JsonImporter()
     with open("expense_categories.json", "r") as f:
         expense_type = importer.read(f)
-
+except FileNotFoundError:
+    print("Please run initialize_data.py first.")
+else:
     # Ask for which category to print.
     current_category = expense_type
     next_layer = True

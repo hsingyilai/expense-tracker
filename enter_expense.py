@@ -6,19 +6,17 @@ from anytree import PreOrderIter
 import json
 import datetime
 
-# Load the saved list and categories.
-try:
+
+try:  # Load the saved list and categories.
     with open("my_expenses.json", "r") as f:
         expense_list_data = json.load(f)
-except FileNotFoundError:
-    print("Please run initialize_data.py first.")
-else:
     expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
-
     importer = JsonImporter()
     with open("expense_categories.json", "r") as f:
         expense_type = importer.read(f)
-
+except FileNotFoundError:
+    print("Please run initialize_data.py first.")
+else:
     # Start the while loop of inputing expense.
     stage = 1  # For controlling which stage we're in.
     the_date = datetime.date.today()

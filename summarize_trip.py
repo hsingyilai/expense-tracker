@@ -6,19 +6,17 @@ from expense_functions import valid_input
 import matplotlib.pyplot as plt
 from expense_module import ExpenseEntry
 
-# Load the expense list and expense categories.
-try:
+
+try:  # Load the expense list and expense categories.
     with open("my_expenses.json", "r") as file:
         expense_list_data = json.load(file)
-except FileNotFoundError:
-    print("Please run initialize_data.py first.")
-else:
     expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
-
     importer = JsonImporter()
     with open("expense_categories.json", "r") as f:
         expense_type = importer.read(f)
-
+except FileNotFoundError:
+    print("Please run initialize_data.py first.")
+else:
     # Create the list of trips for the user to select.
     trip_list = []
     for entry in expense_list:

@@ -5,10 +5,8 @@ from anytree.exporter import JsonExporter
 from anytree.importer import JsonImporter
 
 
-# Load the expense category tree.
-importer = JsonImporter()
-
-try:
+try:  # Load the expense category tree.
+    importer = JsonImporter()
     with open("expense_categories.json", "r") as f:
         expense_type = importer.read(f)
 except FileNotFoundError:
