@@ -1,0 +1,70 @@
+{
+  "name": "All Categories",
+  "notes": [
+    "note"
+  ],
+  "children": [
+    {
+      "name": "Eating & Drinking",
+      "notes": [
+        "note"
+      ],
+      "children": [
+        {
+          "name": "Eat Out",
+          "notes": [
+            "note",
+            "store"
+          ]
+        },
+        {
+          "name": "Rice",
+          "notes": [
+            "note",
+            "quantity (weight)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Housing",
+      "notes": [
+        "note"
+      ],
+      "children": [
+        {
+          "name": "Rent",
+          "notes": [
+            "note"
+          ]
+        },
+        {
+          "name": "PG&E",
+          "notes": [
+            "note"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Travel",
+      "notes": [
+        "note"
+      ],
+      "children": [
+        {
+          "name": "Plane Ticket",
+          "notes": [
+            "note"
+          ]
+        },
+        {
+          "name": "Rental Car",
+          "notes": [
+            "note"
+          ]
+        }
+      ]
+    }
+  ]
+}

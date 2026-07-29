@@ -1,0 +1,95 @@
+[
+    {
+        "date": "2026-05-01",
+        "cost": 418.58,
+        "category": "Rental Car",
+        "notes": {
+            "note": "2 days + Liability"
+        },
+        "regular": false,
+        "trip": "California 2026"
+    },
+    {
+        "date": "2026-05-02",
+        "cost": 380.0,
+        "category": "Plane Ticket",
+        "notes": {
+            "note": "Southwest Chicago to SFO"
+        },
+        "regular": false,
+        "trip": "California 2026"
+    },
+    {
+        "date": "2026-05-02",
+        "cost": 12.0,
+        "category": "Eat Out",
+        "notes": {
+            "note": "1 meal",
+            "store": "In & Out"
+        },
+        "regular": true,
+        "trip": "California 2026"
+    },
+    {
+        "date": "2026-05-15",
+        "cost": 20.0,
+        "category": "Rice",
+        "notes": {
+            "note": "Costco",
+            "quantity (weight)": "2 lb"
+        },
+        "regular": true,
+        "trip": ""
+    },
+    {
+        "date": "2026-05-01",
+        "cost": 1000.0,
+        "category": "Rent",
+        "notes": {
+            "note": ""
+        },
+        "regular": true,
+        "trip": ""
+    },
+    {
+        "date": "2026-05-08",
+        "cost": 100.0,
+        "category": "PG&E",
+        "notes": {
+            "note": ""
+        },
+        "regular": true,
+        "trip": ""
+    },
+    {
+        "date": "2026-06-01",
+        "cost": 1000.0,
+        "category": "Rent",
+        "notes": {
+            "note": ""
+        },
+        "regular": true,
+        "trip": ""
+    },
+    {
+        "date": "2026-06-08",
+        "cost": 150.0,
+        "category": "PG&E",
+        "notes": {
+            "note": "Hot, use more AC"
+        },
+        "regular": true,
+        "trip": ""
+    },
+    {
+        "date": "2026-05-20",
+        "cost": 100.0,
+        "category": "Rice",
+        "notes": {
+            "note": "Safe Mart",
+            "quantity (weight)": "10 lb"
+        },
+        "regular": true,
+        "trip": ""
+    }
+]

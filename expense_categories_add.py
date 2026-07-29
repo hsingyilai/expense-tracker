@@ -26,7 +26,6 @@ while category_index != "exit":
 
     message += "0. Add New Category (Please enter a number): "
 
-    print("")
     print('Enter "exit" to end.')
     valid_list = [str(x) for x in range(0, i + 1)]
     valid_list.append("exit")

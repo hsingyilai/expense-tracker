@@ -1,4 +1,4 @@
-# This script has all the class defined for this project.
+# This script has all the classes defined for this project.
 
 
 class IncomeEntry:

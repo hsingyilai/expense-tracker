@@ -1,0 +1,11 @@
+{
+  "name": "All Income Types",
+  "children": [
+    {
+      "name": "Salary"
+    },
+    {
+      "name": "Selling Stuff"
+    }
+  ]
+}

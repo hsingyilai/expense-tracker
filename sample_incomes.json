@@ -1,0 +1,32 @@
+[
+    {
+        "date": "2026-05-01",
+        "amount": 3680.23,
+        "category": "Salary",
+        "note": "UC Davis TA"
+    },
+    {
+        "date": "2026-05-04",
+        "amount": 50.0,
+        "category": "Selling Stuff",
+        "note": "Old Desk"
+    },
+    {
+        "date": "2026-06-01",
+        "amount": 3680.23,
+        "category": "Salary",
+        "note": "Received 5/30/2026"
+    },
+    {
+        "date": "2026-07-01",
+        "amount": 3680.23,
+        "category": "Salary",
+        "note": "NA"
+    },
+    {
+        "date": "2026-07-23",
+        "amount": 10.0,
+        "category": "Selling Stuff",
+        "note": "Old Chair"
+    }
+]

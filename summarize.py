@@ -14,13 +14,13 @@ Q_ = ureg.Quantity
 
 
 # Load the expense list, income list and categories.
-with open("my_expenses.json", "r") as file:
-    expense_list_data = json.load(file)
+with open("my_expenses.json", "r") as f:
+    expense_list_data = json.load(f)
 
 expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
-with open("my_incomes.json", "r") as file:
-    income_list_data = json.load(file)
+with open("my_incomes.json", "r") as f:
+    income_list_data = json.load(f)
 
 income_list = [IncomeEntry(**entry) for entry in income_list_data]
 

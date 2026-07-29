@@ -128,7 +128,7 @@ while stage > 0:
                     expense_list_data = [vars(entry) for entry in expense_list]
                     with open("my_expenses.json", "w") as f:
                         json.dump(expense_list_data, f, indent=4)
-                    print("\nThe expense:")
+                    print("The expense:")
                     print(expense_string(entry_in_edit))
                     print("has been recorded!")
                     stage = 1
