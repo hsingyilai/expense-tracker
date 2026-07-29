@@ -43,14 +43,12 @@ If you have suggestions regarding the above file's format, please submit an issu
 
 ## Known issues (Work in progress)
 
-The terminal is not the best user interface. I am working using PyQt6 to have a GUI, the repository's link is here:
-<://placeholder.com>
+The terminal is not the best user interface. I am working using PyQt6 to have a GUI, the repository's link is here: <://placeholder.com>
 
 Currently there is no plan to turn this into an mobile app, as both Android and Apple requires some form of payment even just to put an app on my own phone. However, if this project get enough support I will consider this. Or people can take the ideas and do it themselve, this is definitely not this first expense tracker ever made.
 
 ## If you want to support me.
-Here's my GitHub Sponsors profile:
-< ://placeholder.com>
+Here's my GitHub Sponsors profile: < ://placeholder.com>
 
 
 
