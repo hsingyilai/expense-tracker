@@ -17,7 +17,7 @@ This project uses Python to track and analyze expenses. The expenses are stored 
 Besides the scripts meant to be run by the user, expense_functions.py stores all the functions defined for this project, and expense_module.py stores all the classes defined for this project. The users are welcomed to write their own Python scripts to analyze their expenses in whatever way they want.
 
 ## Watch this demo video!
-<The-video-is-not-recorded-yet>
+<://placeholder.com>
 
 ## How to use this expense tracker.
 
@@ -44,13 +44,13 @@ If you have suggestions regarding the above file's format, please submit an issu
 ## Known issues (Work in progress)
 
 The terminal is not the best user interface. I am working using PyQt6 to have a GUI, the repository's link is here:
-<the-repository-is-still-private>
+<://placeholder.com>
 
 Currently there is no plan to turn this into an mobile app, as both Android and Apple requires some form of payment even just to put an app on my own phone. However, if this project get enough support I will consider this. Or people can take the ideas and do it themselve, this is definitely not this first expense tracker ever made.
 
 ## If you want to support me.
 Here's my GitHub Sponsors profile:
-<my-sponsors-profile-is-under-review>
+< ://placeholder.com>
 
 
 
