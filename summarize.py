@@ -206,8 +206,11 @@ values = [expense_type.total_regular, expense_type.total_irregular]
 
 figure, axes = plt.subplots(1, 3)
 
-axes[1].pie(values, autopct="%1.1f%%", startangle=90)
-axes[1].set_title(f"Total Spending\n${expense_type.total}")
+try:
+    axes[1].pie(values, autopct="%1.1f%%", startangle=90)
+    axes[1].set_title(f"Total Spending\n${expense_type.total}")
+except ValueError:
+    print("There are no expenses to plot.")
 
 regular_category = []
 regular_value = []
@@ -216,8 +219,13 @@ for child in expense_type.children:
         regular_category.append(child.name + f" ${child.total_regular}")
         regular_value.append(child.total_regular)
 
-axes[0].pie(regular_value, labels=regular_category, autopct="%1.1f%%", startangle=180)
-axes[0].set_title(f"Regular ${expense_type.total_regular}")
+try:
+    axes[0].pie(
+        regular_value, labels=regular_category, autopct="%1.1f%%", startangle=180
+    )
+    axes[0].set_title(f"Regular ${expense_type.total_regular}")
+except ValueError:
+    print("There are no regular expense.")
 
 irregular_category = []
 irregular_value = []

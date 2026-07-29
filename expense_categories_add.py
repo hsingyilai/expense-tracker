@@ -9,13 +9,13 @@ from anytree.importer import JsonImporter
 importer = JsonImporter()
 
 with open("expense_categories.json", "r") as f:
-    all_category = importer.read(f)
+    expense_type = importer.read(f)
 
-print(RenderTree(all_category).by_attr())
+print(RenderTree(expense_type).by_attr())
 
 
 # Start the while loop for adding new categories.
-current_category = all_category
+current_category = expense_type
 category_index = ""
 while category_index != "exit":
     message = ""
@@ -40,12 +40,12 @@ while category_index != "exit":
         enter_index = int(category_index) - 1
         current_category = current_category.children[enter_index]
 
-print(RenderTree(all_category).by_attr())
+print(RenderTree(expense_type).by_attr())
 
 
 # Save the new expense category tree.
 exporter = JsonExporter(indent=2)
-all_category_json_string = exporter.export(all_category)
+all_category_json_string = exporter.export(expense_type)
 
 with open("expense_categories.json", "w") as f:
     f.write(all_category_json_string)
