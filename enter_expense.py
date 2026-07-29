@@ -14,7 +14,7 @@ expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
 importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
-    category_tree = importer.read(f)
+    expense_type = importer.read(f)
 
 # Start the while loop of inputing expense.
 stage = 1  # For controlling which stage we're in.
@@ -59,7 +59,7 @@ while stage > 0:
             print(
                 'Please choose the category. Enter "go back" to go back, "exit" to exit.'
             )
-            category_node = ask_category(category_tree)
+            category_node = ask_category(expense_type)
             if category_node == "exit":
                 stage = -1
             elif category_node == "go back":
@@ -69,7 +69,7 @@ while stage > 0:
                 stage = 3
 
         case 3:  # Enter notes.
-            for node in PreOrderIter(category_tree):
+            for node in PreOrderIter(expense_type):
                 if node.name == entry_in_edit.category:
                     category_node = node
             for key in category_node.notes:

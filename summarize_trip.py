@@ -14,7 +14,7 @@ expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
 importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
-    category_tree = importer.read(f)
+    expense_type = importer.read(f)
 
 
 # Create the list of trips for the user to select.
@@ -46,24 +46,24 @@ for entry in expense_list:
 expense_list = new_expense_list
 
 # Sum the spending at the last child level.
-for category in PreOrderIter(category_tree):
+for category in PreOrderIter(expense_type):
     setattr(category, "total", 0)
     for entry in expense_list:
         if category.name == entry.category:
             category.total += entry.cost
 
 # Sum the spending of subcategories into categories.
-for category in PostOrderIter(category_tree):
+for category in PostOrderIter(expense_type):
     for child in category.children:
         category.total += child.total
 
-for category in PreOrderIter(category_tree):
+for category in PreOrderIter(expense_type):
     category.total = round(category.total, 2)
 
 print("Total spending in each category:")
 total_category = []
 total_value = []
-for category in PreOrderIter(category_tree):
+for category in PreOrderIter(expense_type):
     if category.total > 0:
         print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
         if len(category.children) == 0:

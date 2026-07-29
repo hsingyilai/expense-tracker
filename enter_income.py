@@ -14,13 +14,13 @@ income_list = [IncomeEntry(**entry) for entry in income_list_data]
 
 importer = JsonImporter()
 with open("income_categories.json", "r") as f:
-    all_income_type = importer.read(f)
+    income_type = importer.read(f)
 
 
 # Start the input process.
 amount = float(input("How much in dollar did you earn?: "))
 
-category = what_income(all_income_type)
+category = what_income(income_type)
 
 note = input("Please enter any notes: ")
 

@@ -12,11 +12,11 @@ expense_list = [ExpenseEntry(**entry) for entry in expense_list_data]
 
 importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
-    category_tree = importer.read(f)
+    expense_type = importer.read(f)
 
 
 # Ask for which category to print.
-current_category = category_tree
+current_category = expense_type
 next_layer = True
 while next_layer:
     message = "Which category of expenses do you want to print?: "
@@ -57,7 +57,7 @@ while next_layer:
 # Print the expenses in the selected category.
 print(category_to_print + " expenses:")
 
-for node in category_tree.descendants:
+for node in expense_type.descendants:
     if node.name == category_to_print:
         root_of_print = node
 

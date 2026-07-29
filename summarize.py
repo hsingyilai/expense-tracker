@@ -26,10 +26,10 @@ income_list = [IncomeEntry(**entry) for entry in income_list_data]
 
 importer = JsonImporter()
 with open("expense_categories.json", "r") as f:
-    category_tree = importer.read(f)
+    expense_type = importer.read(f)
 
 with open("income_categories.json", "r") as f:
-    all_income_type = importer.read(f)
+    income_type = importer.read(f)
 
 
 # Choose the time range to summarize.
@@ -102,7 +102,7 @@ else:
 
 
 # Sum the spending at the last child level.
-for category in PreOrderIter(category_tree):
+for category in PreOrderIter(expense_type):
     setattr(category, "total", 0)
     setattr(category, "total_regular", 0)
     setattr(category, "total_irregular", 0)
@@ -118,48 +118,48 @@ for category in PreOrderIter(category_tree):
         i += 1
 
 # Sum the income of subcategories into categories.
-for category in PostOrderIter(category_tree):
+for category in PostOrderIter(expense_type):
     for child in category.children:
         category.total += child.total
         category.total_regular += child.total_regular
         category.total_irregular += child.total_irregular
 
-for category in PreOrderIter(category_tree):
+for category in PreOrderIter(expense_type):
     category.total = round(category.total, 2)
     category.total_regular = round(category.total_regular, 2)
     category.total_irregular = round(category.total_irregular, 2)
 
 print("Total spending in each category:")
 
-for category in PreOrderIter(category_tree):
+for category in PreOrderIter(expense_type):
     print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
 print("-" * 100)
 # Sum the spending at the last child level.
-for income_type in PreOrderIter(all_income_type):
+for income_type in PreOrderIter(income_type):
     setattr(income_type, "total", 0)
     for entry in income_list:
         if income_type.name == entry.category:
             income_type.total += entry.amount
 
 # Sum the income of subcategories into categories.
-for income_type in PostOrderIter(all_income_type):
+for income_type in PostOrderIter(income_type):
     for child in income_type.children:
         income_type.total += child.total
 
 
-for income_type in PreOrderIter(all_income_type):
+for income_type in PreOrderIter(income_type):
     income_type.total = round(income_type.total, 2)
 
 print("Total earning in each type of income:")
 
-for income_type in PreOrderIter(all_income_type):
+for income_type in PreOrderIter(income_type):
     print(
         f"{len(income_type.ancestors) * '   '}{income_type.name}: ${income_type.total}"
     )
 
 # Compare price if quantity (weight) is noted.
-for category in PostOrderIter(category_tree):
+for category in PostOrderIter(expense_type):
     if "quantity (weight)" in category.notes:
         print("-" * 100)
         cheapest_per_lb = -1
@@ -202,33 +202,33 @@ for category in PostOrderIter(category_tree):
 
 
 # Draw the pie charts.
-values = [category_tree.total_regular, category_tree.total_irregular]
+values = [expense_type.total_regular, expense_type.total_irregular]
 
 figure, axes = plt.subplots(1, 3)
 
 axes[1].pie(values, autopct="%1.1f%%", startangle=90)
-axes[1].set_title(f"Total Spending\n${category_tree.total}")
+axes[1].set_title(f"Total Spending\n${expense_type.total}")
 
 regular_category = []
 regular_value = []
-for child in category_tree.children:
+for child in expense_type.children:
     if child.total_regular > 0:
         regular_category.append(child.name + f" ${child.total_regular}")
         regular_value.append(child.total_regular)
 
 axes[0].pie(regular_value, labels=regular_category, autopct="%1.1f%%", startangle=180)
-axes[0].set_title(f"Regular ${category_tree.total_regular}")
+axes[0].set_title(f"Regular ${expense_type.total_regular}")
 
 irregular_category = []
 irregular_value = []
-for child in category_tree.children:
+for child in expense_type.children:
     if child.total_irregular > 0:
         irregular_category.append(child.name + f" ${child.total_irregular}")
         irregular_value.append(child.total_irregular)
 
 try:
     axes[2].pie(irregular_value, labels=irregular_category, autopct="%1.1f%%")
-    axes[2].set_title(f"Irregular ${category_tree.total_irregular}")
+    axes[2].set_title(f"Irregular ${expense_type.total_irregular}")
 except ValueError:
     print("No irregular expanse.")
 
