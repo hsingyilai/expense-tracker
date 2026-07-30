@@ -79,18 +79,17 @@ else:
 
         # Remove all other entries from the list.
         new_expense_list = []
-        i = 0
         for entry in expense_list:
             date = datetime.date.fromisoformat(entry.date)
             if date.month == month and date.year == year:
                 new_expense_list.append(entry)
-            i += 1
 
         expense_list = new_expense_list
 
         new_income_list = []
         for entry in income_list:
-            if entry.date[0] == month and entry.date[2] == year:
+            date = datetime.date.fromisoformat(entry.date)
+            if date.month == month and date.year == year:
                 new_income_list.append(entry)
 
         income_list = new_income_list
@@ -116,7 +115,7 @@ else:
 
             i += 1
 
-    # Sum the income of subcategories into categories.
+    # Sum the spending of subcategories into categories.
     for category in PostOrderIter(expense_type):
         for child in category.children:
             category.total += child.total
@@ -134,27 +133,25 @@ else:
         print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
     print("-" * 100)
-    # Sum the spending at the last child level.
-    for income_type in PreOrderIter(income_type):
-        setattr(income_type, "total", 0)
+    # Sum the income at the last child level.
+    for category in PreOrderIter(income_type):
+        setattr(category, "total", 0)
         for entry in income_list:
-            if income_type.name == entry.category:
-                income_type.total += entry.amount
+            if category.name == entry.category:
+                category.total += entry.amount
 
     # Sum the income of subcategories into categories.
-    for income_type in PostOrderIter(income_type):
-        for child in income_type.children:
-            income_type.total += child.total
+    for category in PostOrderIter(income_type):
+        for child in category.children:
+            category.total += child.total
 
-    for income_type in PreOrderIter(income_type):
-        income_type.total = round(income_type.total, 2)
+    for category in PreOrderIter(income_type):
+        category.total = round(category.total, 2)
 
     print("Total earning in each type of income:")
 
-    for income_type in PreOrderIter(income_type):
-        print(
-            f"{len(income_type.ancestors) * '   '}{income_type.name}: ${income_type.total}"
-        )
+    for category in PreOrderIter(income_type):
+        print(f"{len(category.ancestors) * '   '}{category.name}: ${category.total}")
 
     # Compare price if quantity (weight) is noted.
     for category in PostOrderIter(expense_type):
