@@ -2,7 +2,7 @@
 import json
 from anytree.importer import JsonImporter
 from anytree import PreOrderIter, PostOrderIter
-from expense_functions import valid_input
+from expense_functions import valid_input, expense_string
 import matplotlib.pyplot as plt
 from expense_module import ExpenseEntry
 
@@ -35,18 +35,20 @@ else:
         i = 0
         for trip in trip_list:
             i += 1
-            message += str(i) + ". " + trip + ". "
+            message += "\n" + str(i) + ". " + trip + ". "
 
         message += "(Please enter a number): "
         trip_selected = valid_input(
             message, [str(i) for i in range(1, len(trip_list) + 1)]
         )
 
+        print("=" * 100)
         # Remove all other entries from the list.
         new_expense_list = []
         for entry in expense_list:
             if entry.trip == trip_list[int(trip_selected) - 1]:
                 new_expense_list.append(entry)
+                print(expense_string(entry))
 
         expense_list = new_expense_list
 
