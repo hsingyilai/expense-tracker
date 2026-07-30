@@ -132,3 +132,41 @@ def add_note(category: Node) -> None:
         new_note = input("Please enter the name of the note: ")
         category.notes.append(new_note)
         add_note(category)
+
+
+def select_trip(expense_list: list[ExpenseEntry]) -> str:
+    """Let the user select a trip from existing ones or create a new one
+    Args:
+        expense_list: The existing expenses
+    """
+    # Create the list of trips for the user to select.
+    trip_list = []
+    for entry in expense_list:
+        if entry.trip != "":
+            trip_list.append(entry.trip)
+
+    trip_list = list(set(trip_list))
+    trip_list.sort()
+
+    if trip_list == []:
+        trip = input("Please enter the name of the trip: ")
+    else:
+        # Ask which trip to summarize.
+        message = "Please select a trip. "
+
+        i = 0
+        for trip in trip_list:
+            i += 1
+            message += "\n" + str(i) + ". " + trip + ". "
+        message += "\n0. Create a new trip. "
+        message += "(Please enter a number): "
+        trip_selected = valid_input(
+            message, [str(i) for i in range(0, len(trip_list) + 1)]
+        )
+
+        if trip_selected == "0":
+            trip = input("Please enter the name of the trip: ")
+        else:
+            trip = trip_list[int(trip_selected) - 1]
+
+    return trip

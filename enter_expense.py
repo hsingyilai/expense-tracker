@@ -1,6 +1,6 @@
 # This script is for the user to record expenses.
 from expense_module import ExpenseEntry
-from expense_functions import ask_category, valid_input, expense_string
+from expense_functions import ask_category, valid_input, expense_string, select_trip
 from anytree.importer import JsonImporter
 from anytree import PreOrderIter
 import json
@@ -127,9 +127,7 @@ else:
                     case "2":
                         entry_in_edit.regular = not entry_in_edit.regular
                     case "3":
-                        entry_in_edit.trip = input(
-                            "Please enter the name of the trip: "
-                        )
+                        entry_in_edit.trip = select_trip(expense_list)
                     case "4":
                         expense_list.append(entry_in_edit)
                         expense_list_data = [vars(entry) for entry in expense_list]
