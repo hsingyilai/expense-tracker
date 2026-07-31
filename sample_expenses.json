@@ -14,7 +14,7 @@
         "cost": 380.0,
         "category": "Plane Ticket",
         "notes": {
-            "note": "Southwest Chicago to SFO"
+            "note": "SampleAirLine Chicago to SFO"
         },
         "regular": false,
         "trip": "California 2026"
@@ -35,7 +35,7 @@
         "cost": 20.0,
         "category": "Rice",
         "notes": {
-            "note": "Costco",
+            "note": "SampleStore1",
             "quantity (weight)": "2 lb"
         },
         "regular": true,
@@ -54,7 +54,7 @@
     {
         "date": "2026-05-08",
         "cost": 100.0,
-        "category": "PG&E",
+        "category": "Electricity",
         "notes": {
             "note": ""
         },
@@ -74,7 +74,7 @@
     {
         "date": "2026-06-08",
         "cost": 150.0,
-        "category": "PG&E",
+        "category": "Electricity",
         "notes": {
             "note": "Hot, use more AC"
         },
@@ -86,8 +86,8 @@
         "cost": 100.0,
         "category": "Rice",
         "notes": {
-            "note": "Safe Mart",
-            "quantity (weight)": "10 lb"
+            "note": "SampleStore2",
+            "quantity (weight)": "5 lb"
         },
         "regular": true,
         "trip": ""
