@@ -187,7 +187,7 @@ else:
                 entry = expense_list[most_expensive_index]
                 print(expense_string(entry))
                 print(
-                    f"You bought {round(total_weight, 1)} lb of meat in total, ${round(total_cost / total_weight, 2)} per pound on average."
+                    f"You bought {round(total_weight, 1)} lb of {category.name} in total, ${round(total_cost / total_weight, 2)} per pound on average."
                 )
                 print(
                     f"You can save ${round(total_cost - cheapest_per_lb * total_weight, 2)} if you stick with the cheapest option."
