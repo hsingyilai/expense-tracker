@@ -80,7 +80,7 @@ else:
                     total_value.append(category.total)
 
         # Draw the pie charts.
-        plot_title = trip_list[int(trip_selected) - 1]
+        plot_title = trip_list[int(trip_selected) - 1] + f"\n${expense_type.total}"
         plt.pie(total_value, labels=total_category, autopct="%1.1f%%")
         plt.title(plot_title)
         plt.show()
