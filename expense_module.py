@@ -8,7 +8,7 @@ class IncomeEntry:
 
     Attributes:
         date: A datetime.date object converted to string in standard ISO format, such as "2026-07-23".
-        cost: How much money was earned in dollar.
+        amount: How much money was earned in dollar.
         category: What category does this income belongs to.
         note: A text entry to take notes on this income.
     """
