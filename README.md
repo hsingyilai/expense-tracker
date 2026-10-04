@@ -48,7 +48,7 @@ The terminal is not the best user interface. I am working on using PyQt6 to have
 Currently there is no plan to turn this into an mobile app, as both Android and Apple requires some form of payment even just to put an app on my own phone. However, if this project get enough support I will consider this. Or people can take the ideas and do it themselve, this is definitely not this first expense tracker ever made.
 
 ## If you want to support me.
-Here's my GitHub Sponsors profile: < ://placeholder.com>
+<iframe src="https://github.com/sponsors/hsingyilai/button" title="Sponsor hsingyilai" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
 
 
 
