@@ -16,9 +16,6 @@ This project uses Python to track and analyze expenses. The expenses are stored 
 
 Besides the scripts meant to be run by the user, expense_functions.py stores all the functions defined for this project, and expense_module.py stores all the classes defined for this project. The users are welcomed to write their own Python scripts to analyze their expenses in whatever way they want.
 
-## Watch this demo video!
-<://placeholder.com>
-
 ## How to use this expense tracker.
 
 * Step 0. Have a way to run Python scripts on your device.
